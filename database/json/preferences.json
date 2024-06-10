@@ -1,0 +1,14 @@
+[
+    {
+    "preferenceId": "1" , 
+    "userId": "1",
+    "darkMode": "false",
+    "metric": "false"
+    },
+    {
+    "preferenceId": "2" ,
+    "userId": "2", 
+    "darkMode": "false",
+    "metric": "true"
+    }
+]

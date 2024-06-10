@@ -1,0 +1,17 @@
+[
+    {
+    "workoutId": "1" , 
+    "workoutName": "user1 workout1",
+    "userId": "1"
+    },
+    {
+    "workoutId": "2" , 
+    "workoutName": "user2 workout1",
+    "userId": "2"
+    },
+    {
+    "workoutId": "3" , 
+    "workoutName": "user1 workout2",
+    "userId": "1"
+    }
+]

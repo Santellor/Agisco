@@ -1,0 +1,45 @@
+day 1
+    min: develop database components: db, model with relationship mapping
+    max: complete seed
+
+    developed the model and db initialization files, and the relationship mapping is functional 
+    
+    tomorrow: The seed file
+
+day 2 
+    min complete seed and begin establishing back end routes
+    max: complete backend routes
+
+    created the root JSON files with no discrepancies (miraculously) 
+!! eventually, the exercises may be substituted with calls to an external API 
+    
+    developed template for seeding database, need to duplicate for all tables
+
+    tomorrow: complete seed
+
+day 3
+    min: complete seed and complete back end routes
+    max: implement controller 
+
+    completed seed and corrected any errors in my relationship mapping
+!! if you have time, check how Koa and Craig are initializing their databases
+!! jsdocs seem really useful
+
+    tomorrow: front end!! woot woot
+
+day 4
+    min: begin crud table rendering
+    max: implement navbar
+
+    adjusted queries and corrected errors with back end routes. 
+
+    tomorrow: finish adjustments
+
+day 5
+    min: view 1 CRUD table on front end
+    max: implement them all 
+
+    finally corrected dynamic endpoints. they are working!!
+    the query string filtering is also working!!
+
+    

@@ -1,0 +1,13 @@
+npm log:
+    npm create vite@latest
+    npm i sequelize
+    npm i pg 
+    npm i express vite-express (I don't currently use: morgan)
+    npm i axios
+
+resources: 
+    //JSDocs for components
+    https://www.inkoop.io/blog/a-guide-to-js-docs-for-react-js/
+
+
+

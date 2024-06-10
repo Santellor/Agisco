@@ -1,0 +1,20 @@
+[
+    {
+    "instanceId": "1",
+    "workoutId": "1", 
+    "userId": "1",
+    "time" : "timestamp"
+    },
+    {
+    "instanceId": "2",
+    "workoutId": "2", 
+    "userId": "2",
+    "time" : "timestamp"
+    },
+    {
+    "instanceId": "3",
+    "workoutId": "2", 
+    "userId": "1",
+    "time" : "timestamp"
+    }
+]

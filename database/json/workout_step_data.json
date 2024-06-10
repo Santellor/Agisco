@@ -1,0 +1,38 @@
+[
+    {
+    "dataId": "1", 
+    "instanceId": "1",
+    "workoutStepId": "1",
+    "sets": "2",
+    "weight": "25",
+    "reps" : "8", 
+    "time" : "5"
+    },
+    {
+    "dataId": "2", 
+    "instanceId": "1",
+    "workoutStepId": "1",
+    "sets": "3",
+    "weight": "30",
+    "reps" : "6", 
+    "time" : "6"
+    },
+    {
+    "dataId": "3", 
+    "instanceId": "2",
+    "workoutStepId": "1",
+    "sets": "3",
+    "weight": "25",
+    "reps" : "10", 
+    "time" : "7"
+    },
+    {
+    "dataId": "4", 
+    "instanceId": "2",
+    "workoutStepId": "1",
+    "sets": "5",
+    "weight": "30",
+    "reps" : "12", 
+    "time" : "8"
+    }
+]

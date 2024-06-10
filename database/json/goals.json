@@ -1,0 +1,57 @@
+[
+    {
+    "goalId": "1", 
+    "userId": "1",
+    "exerciseId": "1",
+    "sets": "3",
+    "weight": "20",
+    "reps" : "8", 
+    "time" : "5"
+    },
+    {
+    "goalId": "2", 
+    "userId": "1",
+    "exerciseId": "2",
+    "sets": "4",
+    "weight": "40",
+    "reps" : "8", 
+    "time" : "5"
+    },
+    {
+    "goalId": "3", 
+    "userId": "1",
+    "exerciseId": "3",
+    "sets": "4",
+    "weight": "30",
+    "reps" : "8", 
+    "time" : "5"
+    },
+    {
+    "goalId": "4", 
+    "userId": "2",
+    "exerciseId": "1",
+    "sets": "3",
+    "weight": "20",
+    "reps" : "8", 
+    "time" : "10"
+    },
+    {
+    "goalId": "5", 
+    "userId": "2",
+    "exerciseId": "2",
+    "sets": "4",
+    "weight": "40",
+    "reps" : "8", 
+    "time" : "10"
+    },
+    {
+    "goalId": "6", 
+    "userId": "2",
+    "exerciseId": "3",
+    "sets": "4",
+    "weight": "30",
+    "reps" : "8", 
+    "time" : "10"
+    }
+    
+]

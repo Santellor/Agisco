@@ -1,0 +1,29 @@
+[
+    {
+    "exerciseId": "1", 
+    "userId": "1",
+    "exerciseName": "bicep curl",
+    "chart": "oh look a bicep picture",
+    "videoLink": "jeff cavaliere here with athlean x",
+    "groupId" : "1", 
+    "typeId" : "1"
+    },
+    {
+    "exerciseId": "2", 
+    "userId": "2",
+    "exerciseName": "spider curl",
+    "chart": "oh look a bicep picture",
+    "videoLink": "jeff cavaliere here with athlean x",
+    "groupId" : "1", 
+    "typeId" : "1"
+    },
+    {
+    "exerciseId": "3", 
+    "userId": "1",
+    "exerciseName": "waiter curl",
+    "chart": "oh look a bicep picture",
+    "videoLink": "jeff cavaliere here with athlean x",
+    "groupId" : "1", 
+    "typeId" : "1"
+    }
+]
