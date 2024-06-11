@@ -41,5 +41,23 @@ day 5
 
     finally corrected dynamic endpoints. they are working!!
     the query string filtering is also working!!
+    I CAN VIEW ALL THE tables
+
+    tomorrow: logins ,redux store, etc
+
+day 6
+    min: add endpoints and complete controllers for login, logout, register, sessionCheck
+    max: add full landing page functionality
+
+    added 4 backend routes
+    front-end functionality is up and running
+    correctly evaluates for no password, no username, neither being correct
+    when registering correctly evaluates when two 
+
+
+    tomorrow: cannibalize the best parts of my noDB project
+        editing, viewing notes, etc
+
+
 
     

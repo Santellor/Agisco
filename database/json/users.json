@@ -1,11 +1,10 @@
 [
     {
     "email": "user1@me.com",
-    "password": "test"
+    "password": "$2a$10$HAk2pIeFkH321O1oo56SB.daib.WKAxfjpEOmZefEt6Pf1Ne3kgxi"
     },
     {
     "email": "user2@me.com",
-    "password": "test"
+    "password": "$2a$10$HAk2pIeFkH321O1oo56SB.daib.WKAxfjpEOmZefEt6Pf1Ne3kgxi"
     }
-   
 ]

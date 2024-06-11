@@ -5,7 +5,7 @@ import Record from './Record'
 const Table = () => {
 
 const [tableData, setTableData] = useState([])
-const [modelRef, setModelRef] = useState('goals')
+const [modelRef, setModelRef] = useState('workout_steps')
 const [filter, setFilter] = useState({})
 
 
