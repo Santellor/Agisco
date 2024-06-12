@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Record from './Record'
 
-const Table = () => {
+const Table = ({routeModelRef}) => {
 
 const [tableData, setTableData] = useState([])
-const [modelRef, setModelRef] = useState('workout_steps')
+const [modelRef, setModelRef] = useState()
 const [filter, setFilter] = useState({})
 
 
 useEffect(() => {
-    console.log(`loader useEffect`)
-
+    console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
+    
+    setModelRef(routeModelRef)
+    
     const loadTable = async () => {
       // create a query string
       let filterQueryString = ""
@@ -28,26 +30,33 @@ useEffect(() => {
       else filterQueryString = filterQueryString.slice(0,-1)
 
       // for debugging
-      console.log(filterQueryString)
+      console.log(`modelRef`, modelRef)
+      console.log(`filterQueryString`, filterQueryString)
       console.log(`/api/load/${modelRef}/${filterQueryString}`)
     
-    const {data} = await axios.get(`/api/load/${modelRef}/${filterQueryString}`,)
+    const {data} = await axios.get(`/api/load/${routeModelRef}/${filterQueryString}`,)
         console.log(data)
         setTableData(data)
     }
     loadTable()
-}, [])
+},[routeModelRef])
 
-const headerArray = ["", ...Object.keys(tableData[0] ?? {})]
+let headerArray = [...Object.keys(tableData[0] ?? {})]
+headerArray[0] = ''
+headerArray = headerArray.filter((el) => { return el !== 'createdAt' && el !== 'updatedAt'})
 
-const tableHead = headerArray.map((element) => 
-     <th>
-       {element}
+
+const tableHead = headerArray.map((element, index) => 
+     <th key={index}>
+          {element}
      </th>
 )
-const tableBody = tableData.map((element) =>
-    < Record 
+const tableBody = tableData.map((element, index) =>
+    < Record
       values={element}
+      modelRef={modelRef}
+      parentIndex={index + 1}
+      key={index}
     />
 )
 

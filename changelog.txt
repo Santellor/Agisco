@@ -41,7 +41,7 @@ day 5
 
     finally corrected dynamic endpoints. they are working!!
     the query string filtering is also working!!
-    I CAN VIEW ALL THE tables
+    I CAN VIEW ALL THE tables. I can only view them for now though
 
     tomorrow: logins ,redux store, etc
 
@@ -56,7 +56,17 @@ day 6
 
 
     tomorrow: cannibalize the best parts of my noDB project
-        editing, viewing notes, etc
+day 7
+    min: create base viewer for all tables, ideally with full CRUD
+    max: implement charts
+
+    added a front-end router and also laid the groundwork for an active workout with redux
+    login correctly redirects to and away from navbar
+    tables no longer show timestamps, but are still ordered by them
+!! don't forget to add a switcher for ordering if you are viewing workout instances
+!! workout instances -> order by createdAt;   all others -> order by updatedAt
+    edit toggling and delete toggling are all correctly implemented
+!! the top of your table should have: search bar, add new, and arrows for determining offset
 
 
 

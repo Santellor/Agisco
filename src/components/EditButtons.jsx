@@ -1,20 +1,27 @@
 import React from 'react'
 
-const EditButtons = ({edit, isEditing, removeDate}) => {
-  if (isEditing) {
+// const EditButtons = ({edit, editing, toggleEdit, remove, deleting, toggleDelete}) => {
+const EditButtons = ({ editRecord, editing, toggleEdit, deleting, toggleDelete}) => {
+  if (editing) {
     return (
         <td>
-            <button onClick={edit}>Save</button>
+            <button onClick={editRecord}>Save</button>
         </td>
+    )
+} else if (deleting) {
+    return (
+        <td>
+            <button onClick={null}>Confirm Delete</button>
+            <button onClick={toggleDelete}>Back</button>
+        </td>          
     )
 } else {
     return (
         <td>
-            <button onClick={removeDate}>Delete</button>
-            <button onClick={edit}>Edit</button>
+            <button onClick={toggleDelete}>Delete</button>
+            <button onClick={toggleEdit}>Edit</button>
         </td>          
     )
-   
 }
 }
 

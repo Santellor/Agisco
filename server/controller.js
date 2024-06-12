@@ -50,8 +50,10 @@ const handlerFunctions = {
         
         //test request structure before returning
         if (!models[modelRef]) {
-            res.status(404).send({ message: `Error404: endpoint does not exist, model ${modelRef} not mapped` })
-            success = false
+            res.status(404).send({ 
+                message: `Error404: endpoint does not exist, model ${modelRef} not mapped`,
+                success: false 
+            })
             return
         }
 

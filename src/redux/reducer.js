@@ -1,6 +1,6 @@
 const initialState = {
   userId: null,
-  otherValue: "hello"
+  workingOut: false
 };
 
 // front end components will dispatch an action object :
@@ -18,6 +18,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userId: null,
+      };
+
+    case "START_WORKOUT":
+      return {
+        ...state,
+        workingOut: true,
+      };
+
+    case "END_WORKOUT":
+      return {
+        ...state,
+        workingOut: false,
       };
 
     default:
