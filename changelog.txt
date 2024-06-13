@@ -67,6 +67,15 @@ day 7
 !! workout instances -> order by createdAt;   all others -> order by updatedAt
     edit toggling and delete toggling are all correctly implemented
 !! the top of your table should have: search bar, add new, and arrows for determining offset
+    dynamic state for fields is in progress. I need to use redux to tackle it. 
+
+    tomorrow: finish Redux and eager load other components for better display
+
+day 8 
+    min: finish Redux and eager load other components for better display
+    max: full crud, mvp done
+
+
 
 
 

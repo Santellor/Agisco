@@ -142,13 +142,14 @@ await Promise.all(workoutInstances.map( async (workoutInstance) => {
 
 await Promise.all(workoutSteps.map( async (workoutStep) => {
         // destructure keys 
-        const { workoutId, exerciseId, sets } = workoutStep;
+        const { workoutId, exerciseId, sets, relativePosition } = workoutStep;
 
         //create a record using the values provided 
         const record = WorkoutStep.create({
             workoutId,
             exerciseId,
             sets,
+            relativePosition,
         });
 
         return record;

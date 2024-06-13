@@ -10,8 +10,20 @@ import {
     Exercise,
     MuscleGroup,
     ExerciseType
-    } from './model.js'
+} from './model.js'
 
+const includeRefs = {
+    User: [],
+    Preference : [User],
+    Workout: [User],
+    WorkoutStep: [Workout, Exercise],
+    WorkoutInstance: [User, Workout],
+    WorkoutStepDatum: [WorkoutInstance, WorkoutStep],
+    Goal: [User, Exercise],
+    Exercise: [User, MuscleGroup, ExerciseType],
+    MuscleGroup: [],
+    ExerciseType: [],
+}
 
 //load a table using a modelRef and an optional filter object
     // the filter object dictates: column, value, order, and offset
@@ -33,7 +45,8 @@ const loadRecords = async (modelRef, filter) => {
     
     //return the desired table, limiting, offsetting, and ordering as dictated by the filter
     let loadData = await modelRef.findAll({
-        where: search,
+        // where: search,
+        include: includeRefs[modelRef],
         limit: 20,
         offset: offset,
         order: db.col(order)

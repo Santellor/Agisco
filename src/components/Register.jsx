@@ -27,7 +27,7 @@ function Register({ setShowRegister }) {
             payload: data.userId
           })
           setShowRegister(false)
-          setUsername("")
+          setEmail("")
           setPassword1("")
           setPassword2("")
       }

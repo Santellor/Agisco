@@ -3,24 +3,28 @@
     "workoutStepId": "1" , 
     "workoutId": "1",
     "exerciseId": "1",
-    "sets": "3"
+    "sets": "3",
+    "relativePosition": "1"
     },
     {
     "workoutStepId": "2" , 
     "workoutId": "1",
     "exerciseId": "2",
-    "sets": "4"
+    "sets": "4",
+    "relativePosition": "2"
     },
     {
     "workoutStepId": "3" , 
     "workoutId": "2",
     "exerciseId": "2",
-    "sets": "3"
+    "sets": "3",
+    "relativePosition": "1"
     },
     {
     "workoutStepId": "4" , 
     "workoutId": "2",
     "exerciseId": "3",
-    "sets": "4"
+    "sets": "4",
+    "relativePosition": "2"
     }
 ]

@@ -1,6 +1,6 @@
 const initialState = {
   userId: null,
-  workingOut: false
+  workingOut: false,
 };
 
 // front end components will dispatch an action object :

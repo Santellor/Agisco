@@ -41,10 +41,9 @@ useEffect(() => {
     loadTable()
 },[routeModelRef])
 
-let headerArray = [...Object.keys(tableData[0] ?? {})]
-headerArray[0] = ''
-headerArray = headerArray.filter((el) => { return el !== 'createdAt' && el !== 'updatedAt'})
+let headerArray = [``, ...Object.keys(tableData[0] ?? {})]
 
+// headerArray = headerArray.filter((el) => { return el !== 'createdAt' && el !== 'updatedAt'})
 
 const tableHead = headerArray.map((element, index) => 
      <th key={index}>
@@ -53,13 +52,12 @@ const tableHead = headerArray.map((element, index) =>
 )
 const tableBody = tableData.map((element, index) =>
     < Record
-      values={element}
+      recordObject={element}
       modelRef={modelRef}
       parentIndex={index + 1}
       key={index}
     />
 )
-
 
   return (
   <table>

@@ -113,6 +113,9 @@ WorkoutStep.init(
         autoIncrement: true,
         primaryKey: true,
     },
+    relativePosition: {
+        type: DataTypes.INTEGER,
+    },
     // workoutId 1 - many 
         // relationship declared under Workout
     // exerciseId 1 - many 
