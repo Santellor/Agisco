@@ -76,11 +76,10 @@ const tableBody = tableData.map((element, index) =>
 )
 
   return (
+    <div>
+        <p>insert search bar (columns dropdown, value text input), add new, and arrows for determining offset</p>
   <table>
     <thead>
-      <tr>
-        <p>insert search bar, add new, and arrows for determining offset</p>
-      </tr>
         <tr>
       {tableHead}
         </tr>
@@ -89,6 +88,7 @@ const tableBody = tableData.map((element, index) =>
       {tableBody}
     </tbody>
   </table>
+  </div>
   )
 }
 

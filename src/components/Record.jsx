@@ -70,6 +70,15 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
 let i = parentIndex * 100
 
 //create our record, beginning with a component for buttons
+
+  // Deletion and editing should only render the buttons if the logged in user is the owner
+    // if admin, ignore this
+    // if a USERid is present, use that immediately
+    // if not, search using 
+        // workout step data -> instance id -> userID of instance where instanceid = instanceid
+        // workout step -> workout id -> userID of workout where workoutid = workoutid
+
+
 let dynamicRecord = [ <EditButtons 
                         key={i}
                         editRecord={editRecord}
@@ -88,13 +97,13 @@ for (let key in recordObject) {
     if (crudArrayRef.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (<Field key={i} 
                                  editing={editing}
-                                 data={String(valuePropStack.pop())} 
+                                 data={valuePropStack.pop()} 
                                  setter={setterPropStack.pop()}/>)
     }
     else {
       dynamicRecord.push (<Field key={i}
                                  editing={editing} 
-                                 data={String(recordObject[key])}/>)
+                                 data={recordObject[key]}/>)
     }
     i++
   // }

@@ -11,7 +11,7 @@
     {
     "dataId": "2", 
     "instanceId": "1",
-    "workoutStepId": "1",
+    "workoutStepId": "2",
     "sets": "3",
     "weight": "30",
     "reps" : "6", 
@@ -29,7 +29,7 @@
     {
     "dataId": "4", 
     "instanceId": "2",
-    "workoutStepId": "1",
+    "workoutStepId": "2",
     "sets": "5",
     "weight": "30",
     "reps" : "12", 

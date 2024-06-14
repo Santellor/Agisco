@@ -81,6 +81,18 @@ day 8
 
     tomorrow - have a field day. its gonna be a doozy, but at least you know where to start
 
+day 9 - field day 
+    min: preserve data types in the tables
+    max: correctly alias fields, and handle indirect editing with a new backend route. 
+
+!! admin can be stored in redux to determine which CRUD tables are accessible, and if you are an admin...all fields should be editable. 
+!! deleting and editing should be subject to if you are the owner
+!! add new should be dependent on the modelRef. if you are not an admin, yous hould not be able to add a new muscle group or exercise type
+
+MVP 2
+    activeworkout
+    Profile - Admin
+    Charts
 
 
 

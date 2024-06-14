@@ -87,7 +87,7 @@ const editRecord = async (modelRef, id, entry) => {
     return await targetRecord.update(entry)
 }
 
-export { loadRecords, addRecord, removeRecord, editRecord}
+export { loadRecords, addRecord, removeRecord, editRecord }
 
 // await db.close()
 
