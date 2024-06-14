@@ -40,14 +40,14 @@ useEffect(() => {
       else filterQueryString = filterQueryString.slice(0,-1)
 
       // for debugging
-      console.log(`modelRef`, modelRef)
-      console.log(`filterQueryString`, filterQueryString)
-      console.log(`/api/load/${modelRef}/${filterQueryString}`)
+      // console.log(`modelRef`, modelRef)
+      // console.log(`filterQueryString`, filterQueryString)
+      // console.log(`/api/load/${modelRef}/${filterQueryString}`)
     
     // clear past table data from previous renders, then load new data
     setTableData([])
     const {data} = await axios.get(`/api/load/${routeModelRef}/${filterQueryString}`,)
-        console.log(data)
+        console.log(`data`, data)
         setTableData(data)
     }
     loadTable()

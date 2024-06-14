@@ -2,11 +2,13 @@ import {useState} from 'react'
 
 const Field = ({data, editing, setter}) => {
 let type = typeof data
+// if (data[4] === '-' && data[6] === '-') type = 'date'
 
 console.log(data, type)
   switch(type) {
     case 'number' :
     case 'boolean' :
+    case 'date' :
     default :
 
   }

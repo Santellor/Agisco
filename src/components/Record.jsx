@@ -4,6 +4,26 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
+
+  let fieldValuesArray = []
+
+  console.log(`record object`, recordObject)
+
+  for (let key in recordObject) {
+    if (typeof key === 'object') {
+      let nestedValues = Object.values(key)
+      delete recordObject[key]
+      fieldValuesArray = [...fieldValuesArray, ...nestedValues] 
+    }
+  }
+
+  console.log(`after loop`, recordObject)
+  console.log(`before merge`,fieldValuesArray)
+
+  let filteredRecordValuesArray = Object.values(recordObject)
+  fieldValuesArray = [ ...fieldValuesArray, ...filteredRecordValuesArray]
+
+  console.log(`after merge`,fieldValuesArray)
  
   const editingRefs = { 
     users: [1,2], 
@@ -17,26 +37,26 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
     muscle_groups: [1,2],
     exercise_types: [1,2],
   }
-  const recordValuesArray = Object.values(recordObject)
+
   const crudArrayRef = editingRefs[modelRef]
   const entry = {}
 
   const [editing, setEditing] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const [editingField1, setEditingField1] = useState(recordValuesArray[crudArrayRef[0]])
-  const [editingField2, setEditingField2] = useState(recordValuesArray[crudArrayRef[1]])
-  const [editingField3, setEditingField3] = useState(recordValuesArray[crudArrayRef[2]])
-  const [editingField4, setEditingField4] = useState(recordValuesArray[crudArrayRef[3]])
-  const [editingField5, setEditingField5] = useState(recordValuesArray[crudArrayRef[4]])
-  const [editingField6, setEditingField6] = useState(recordValuesArray[crudArrayRef[5]])
+  const [editingField1, setEditingField1] = useState(fieldValuesArray[crudArrayRef[0]])
+  const [editingField2, setEditingField2] = useState(fieldValuesArray[crudArrayRef[1]])
+  const [editingField3, setEditingField3] = useState(fieldValuesArray[crudArrayRef[2]])
+  const [editingField4, setEditingField4] = useState(fieldValuesArray[crudArrayRef[3]])
+  const [editingField5, setEditingField5] = useState(fieldValuesArray[crudArrayRef[4]])
+  const [editingField6, setEditingField6] = useState(fieldValuesArray[crudArrayRef[5]])
 
   useEffect( ()=> {
-    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[0]]] = editingField1
-    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[1]]] = editingField2
-    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[2]]] = editingField3
-    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[3]]] = editingField4
-    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[4]]] = editingField5
-    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[5]]] = editingField6
+    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[0]]] = editingField1
+    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[1]]] = editingField2
+    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[2]]] = editingField3
+    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[3]]] = editingField4
+    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[4]]] = editingField5
+    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[5]]] = editingField6
     delete entry.undefined
     console.log(`entry`, entry)
     },[editing])
@@ -91,7 +111,7 @@ let dynamicRecord = [ <EditButtons
 i++
 
 //loop through values. for each CRUD value, we must send a state value and then a setter 
-for (let key in recordObject) {
+for (let fieldValue of fieldValuesArray) {
   // filter out the primary key
   // if (String(key) !== String(Object.keys(recordObject)[0])) {
     if (crudArrayRef.includes(i-parentIndex*100-1)) {
@@ -101,9 +121,9 @@ for (let key in recordObject) {
                                  setter={setterPropStack.pop()}/>)
     }
     else {
-      dynamicRecord.push (<Field key={i}
-                                 editing={editing} 
-                                 data={recordObject[key]}/>)
+      // dynamicRecord.push (<Field key={i}
+      //                            editing={editing} 
+                                //  data={fieldValue}/>)
     }
     i++
   // }

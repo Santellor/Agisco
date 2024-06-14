@@ -13,21 +13,43 @@ import {
 } from './model.js'
 
 const includeRefs = {
-    User: [],
-    Preference : [User],
-    Workout: [User],
-    WorkoutStep: [Workout, Exercise],
-    WorkoutInstance: [User, Workout],
-    WorkoutStepDatum: [WorkoutInstance, WorkoutStep],
-    Goal: [User, Exercise],
-    Exercise: [User, MuscleGroup, ExerciseType],
-    MuscleGroup: [],
-    ExerciseType: [],
+    users: [],
+    preferences: [{
+            model: User,
+            attributes:['email']
+    }],
+    workouts: [{
+            model: User,
+            attributes:['email']
+    }],
+    workoutSteps: [{
+            model: Workout,
+            attributes:['workoutName']
+        }, {
+            model: Exercise,
+            attributes:['exerciseName']
+    }],
+    workoutInstances: [{
+            model: User,
+            attributes:['email']
+        }, {
+            model: Workout,
+            attributes:['workoutName']
+    }],
+    workoutStepData: [
+        {
+            model: Workout,
+            attributes:['workoutName'],
+        }, WorkoutStep],
+    goals: [User, Exercise],
+    exercises: [User, MuscleGroup, ExerciseType],
+    muscleGroups: [],
+    exerciseTypes: [],
 }
 
-//load a table using a modelRef and an optional filter object
+//load a table using a model and an optional filter object
     // the filter object dictates: column, value, order, and offset
-const loadRecords = async (modelRef, filter) => {
+const loadRecords = async (model, modelRef, filter) => {
 
     //declare variables to be used in our findAll
     let search, offset, order
@@ -36,15 +58,18 @@ const loadRecords = async (modelRef, filter) => {
     if (filter.column && filter.value) {
         search = {[filter.column] : [filter.value]}
     } else {
-    search = {}
+        search = {}
     }
    
     //apply a default for offset and order if they are not specified
     offset = +filter.offset ?? 0
     order = filter.order ?? 'updatedAt'
+    console.log(`includeRefs[model]`, includeRefs[modelRef])
+    console.log(`includeRefs[User]`, includeRefs[`users`])
+    console.log(`includeRefs.User`, includeRefs.users)
     
     //return the desired table, limiting, offsetting, and ordering as dictated by the filter
-    let loadData = await modelRef.findAll({
+    let loadData = await model.findAll({
         // where: search,
         include: includeRefs[modelRef],
         limit: 20,
@@ -62,17 +87,17 @@ const loadRecords = async (modelRef, filter) => {
 //add a record using a table model reference and an entry object
     //the entry object carries the correct key value pairs to input data
     //let exEntry = {username: example, password: test}
-const addRecord = async (modelRef, entry) => {
+const addRecord = async (model, entry) => {
     
-    const addedRecord = await modelRef.create(entry) 
+    const addedRecord = await model.create(entry) 
     return addedRecord
 }
 
 // addRecord(User, {email: `claudia@claudia.com`, password: `whatever`})
 //remove a record using a table model reference, and the id of the record to be deleted
-const removeRecord = async (modelRef, id) => {
+const removeRecord = async (model, id) => {
     
-    const targetRecord = await modelRef.findByPk(id)
+    const targetRecord = await model.findByPk(id)
 
     return targetRecord ? await targetRecord.destroy() : console.log(`record at id:${id} does not exist`);
 }
@@ -80,9 +105,9 @@ const removeRecord = async (modelRef, id) => {
 //edit a record using a table model reference, a reference id, and an entry object
     //the entry object carries the correct key value pairs to replace existing data
     //let exEntry = {password: I made a new password}
-const editRecord = async (modelRef, id, entry) => {
+const editRecord = async (model, id, entry) => {
     
-    const targetRecord = await modelRef.findByPk(id)
+    const targetRecord = await model.findByPk(id)
 
     return await targetRecord.update(entry)
 }

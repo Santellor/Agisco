@@ -58,7 +58,7 @@ const handlerFunctions = {
         }
 
         // reference db through a query and return all records
-        res.status(200).send(await loadRecords(models[modelRef], filter));
+        res.status(200).send(await loadRecords(models[modelRef], modelRef, filter));
     },
 
 // Post to add a new item
