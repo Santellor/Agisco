@@ -7,3 +7,4 @@ const ActiveWorkout = () => {
 }
 
 export default ActiveWorkout
+

@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
-
-  console.log(recordObject)
  
   const editingRefs = { 
     users: [1,2], 
@@ -19,26 +17,31 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
     muscle_groups: [1,2],
     exercise_types: [1,2],
   }
-
   const recordValuesArray = Object.values(recordObject)
+  const crudArrayRef = editingRefs[modelRef]
+  const entry = {}
 
   const [editing, setEditing] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const [crudArrayRef, setCrudArrayRef] = useState(editingRefs[modelRef])
-  const [field1, setField1] = useState(recordValuesArray[crudArrayRef[0]])
-  const [field2, setField2] = useState(recordValuesArray[crudArrayRef[1]])
-  const [field3, setField3] = useState(recordValuesArray[crudArrayRef[2]])
-  const [field4, setField4] = useState(recordValuesArray[crudArrayRef[3]])
-  const [field5, setField5] = useState(recordValuesArray[crudArrayRef[4]])
-  const [field6, setField6] = useState(recordValuesArray[crudArrayRef[5]])
+  const [editingField1, setEditingField1] = useState(recordValuesArray[crudArrayRef[0]])
+  const [editingField2, setEditingField2] = useState(recordValuesArray[crudArrayRef[1]])
+  const [editingField3, setEditingField3] = useState(recordValuesArray[crudArrayRef[2]])
+  const [editingField4, setEditingField4] = useState(recordValuesArray[crudArrayRef[3]])
+  const [editingField5, setEditingField5] = useState(recordValuesArray[crudArrayRef[4]])
+  const [editingField6, setEditingField6] = useState(recordValuesArray[crudArrayRef[5]])
+
+  useEffect( ()=> {
+    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[0]]] = editingField1
+    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[1]]] = editingField2
+    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[2]]] = editingField3
+    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[3]]] = editingField4
+    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[4]]] = editingField5
+    if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[5]]] = editingField6
+    console.log(`entry`, entry)
+    },[editing])
  
-  const valuePropStack = [field6, field5, field4, field3, field2, field1] 
-  const setterPropStack = [setField6, setField5, setField4, setField3, setField2, setField1] 
-
-  crudArrayRef.forEach((el) => {
-    // setField1()
-
-  })
+  const valuePropStack = [editingField6, editingField5, editingField4, editingField3, editingField2, editingField1] 
+  const setterPropStack = [setEditingField6, setEditingField5, setEditingField4, setEditingField3, setEditingField2, setEditingField1] 
 
   const editRecord = () => {
     // entry
@@ -69,6 +72,7 @@ let dynamicRecord = [ <EditButtons
                         editRecord={editRecord}
                         editing={editing}
                         toggleEdit={() => toggleEdit()}
+                        removeRecord={removeRecord}
                         deleting={deleting} 
                         toggleDelete={() => toggleDelete()} 
                     />]

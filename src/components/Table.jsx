@@ -8,7 +8,6 @@ const [tableData, setTableData] = useState([])
 const [modelRef, setModelRef] = useState()
 const [filter, setFilter] = useState({})
 
-
 useEffect(() => {
     console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
     
@@ -34,6 +33,8 @@ useEffect(() => {
       console.log(`filterQueryString`, filterQueryString)
       console.log(`/api/load/${modelRef}/${filterQueryString}`)
     
+    // clear past table data from previous renders, then load new data
+    setTableData([])
     const {data} = await axios.get(`/api/load/${routeModelRef}/${filterQueryString}`,)
         console.log(data)
         setTableData(data)
