@@ -8,6 +8,17 @@ const [tableData, setTableData] = useState([])
 const [modelRef, setModelRef] = useState()
 const [filter, setFilter] = useState({})
 
+
+ // remove a record
+ const removeRecord = async (id) => {
+  await axios.delete(`/api/remove/${modelRef}/${id}`)
+}
+
+// edit a record
+const editRecord = async (id, entry) => {
+  const {data} = await axios.put(`/api/edit/${modelRef}/${id}`, entry)
+}
+
 useEffect(() => {
     console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
     
@@ -42,6 +53,8 @@ useEffect(() => {
     loadTable()
 },[routeModelRef])
 
+
+
 let headerArray = [``, ...Object.keys(tableData[0] ?? {})]
 
 // headerArray = headerArray.filter((el) => { return el !== 'createdAt' && el !== 'updatedAt'})
@@ -56,6 +69,8 @@ const tableBody = tableData.map((element, index) =>
       recordObject={element}
       modelRef={modelRef}
       parentIndex={index + 1}
+      edit={editRecord}
+      remove={removeRecord}
       key={index}
     />
 )
@@ -63,6 +78,9 @@ const tableBody = tableData.map((element, index) =>
   return (
   <table>
     <thead>
+      <tr>
+        <p>insert search bar, add new, and arrows for determining offset</p>
+      </tr>
         <tr>
       {tableHead}
         </tr>

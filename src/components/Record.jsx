@@ -37,6 +37,7 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
     if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[3]]] = editingField4
     if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[4]]] = editingField5
     if (editingField1 !== undefined) entry[recordValuesArray[crudArrayRef[5]]] = editingField6
+    delete entry.undefined
     console.log(`entry`, entry)
     },[editing])
  
@@ -44,15 +45,17 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
   const setterPropStack = [setEditingField6, setEditingField5, setEditingField4, setEditingField3, setEditingField2, setEditingField1] 
 
   const editRecord = () => {
-    // entry
-    
-    // edit(modelRef, id, entry)
+    console.log(`modelRef`, modelRef)
+    console.log(`parentIndex`, parentIndex)
+    console.log(`entry`, entry)
+    // edit(modelRef, parentIndex, entry)
     toggleEdit()
   }
 
   const removeRecord = () => {
-    remove(modelRef, id)
-    toggleEdit()
+    console.log(`modelRef`, modelRef)
+    console.log(`parentIndex`, parentIndex)
+    // remove(modelRef, parentIndex)
   }
     
   const toggleEdit = () => {
