@@ -5,22 +5,36 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
 
+  let timeRef, wrongTimeRef;
+  if (modelRef !== 'workout_instances' || modelRef !== 'workout_step_data') {
+    timeRef = 'updatedAt'
+    wrongTimeRef = 'createdAt'
+  } else {}
+    timeRef = 'createdAt'
+    wrongTimeRef= 'updatedAt'
+
   let fieldValuesArray = []
 
-  console.log(`record object`, recordObject)
+  let recordObjectCopy = {...recordObject}
+  console.log(`record object copy`, recordObjectCopy)
 
-  for (let key in recordObject) {
-    if (typeof key === 'object') {
-      let nestedValues = Object.values(key)
-      delete recordObject[key]
+  delete recordObjectCopy[wrongTimeRef]
+  let cutoffIndex = Object.keys(recordObjectCopy).indexOf(timeRef) + 1
+
+  for (let element in recordObjectCopy) {
+      console.log(`typeof for key`, typeof recordObjectCopy[element])
+    if (typeof recordObjectCopy[element] === 'object') {
+      let nestedValues = Object.values(recordObjectCopy[element])
+      console.log(`nestedValues`, nestedValues)
+      delete recordObjectCopy[element]
       fieldValuesArray = [...fieldValuesArray, ...nestedValues] 
     }
   }
 
-  console.log(`after loop`, recordObject)
+  console.log(`after loop`, recordObjectCopy)
   console.log(`before merge`,fieldValuesArray)
 
-  let filteredRecordValuesArray = Object.values(recordObject)
+  let filteredRecordValuesArray = Object.values(recordObjectCopy).slice(1,cutoffIndex)
   fieldValuesArray = [ ...fieldValuesArray, ...filteredRecordValuesArray]
 
   console.log(`after merge`,fieldValuesArray)
@@ -121,9 +135,9 @@ for (let fieldValue of fieldValuesArray) {
                                  setter={setterPropStack.pop()}/>)
     }
     else {
-      // dynamicRecord.push (<Field key={i}
-      //                            editing={editing} 
-                                //  data={fieldValue}/>)
+      dynamicRecord.push (<Field key={i}
+                                 editing={editing} 
+                                 data={fieldValue}/>)
     }
     i++
   // }

@@ -17,34 +17,49 @@ const includeRefs = {
     preferences: [{
             model: User,
             attributes:['email']
-    }],
+}],
     workouts: [{
             model: User,
             attributes:['email']
-    }],
-    workoutSteps: [{
+}],
+    workout_steps: [{
             model: Workout,
             attributes:['workoutName']
         }, {
             model: Exercise,
             attributes:['exerciseName']
-    }],
-    workoutInstances: [{
+}],
+    workout_instances: [{
             model: User,
             attributes:['email']
         }, {
             model: Workout,
             attributes:['workoutName']
-    }],
-    workoutStepData: [
+}],
+    workout_step_data: [
         {
-            model: Workout,
-            attributes:['workoutName'],
-        }, WorkoutStep],
-    goals: [User, Exercise],
-    exercises: [User, MuscleGroup, ExerciseType],
-    muscleGroups: [],
-    exerciseTypes: [],
+            model: WorkoutStep,
+            attributes:['relativePosition'],
+}],
+    goals: [{
+            model: User,
+            attributes:['email']
+    }, {
+            model: Exercise,
+            attributes:['exerciseName']
+}],
+    exercises: [{
+            model: User,
+            attributes:['email']
+    }, {
+            model: MuscleGroup,
+            attributes:['groupName']
+    }, {
+            model: ExerciseType,
+            attributes:['typeName']
+}],
+    muscle_groups: [],
+    exercise_types: [],
 }
 
 //load a table using a model and an optional filter object
@@ -64,8 +79,8 @@ const loadRecords = async (model, modelRef, filter) => {
     //apply a default for offset and order if they are not specified
     offset = +filter.offset ?? 0
     order = filter.order ?? 'updatedAt'
-    console.log(`includeRefs[model]`, includeRefs[modelRef])
-    console.log(`includeRefs[User]`, includeRefs[`users`])
+    console.log(`modelRef`, modelRef)
+    console.log(`includeRefs`, includeRefs[modelRef])
     console.log(`includeRefs.User`, includeRefs.users)
     
     //return the desired table, limiting, offsetting, and ordering as dictated by the filter

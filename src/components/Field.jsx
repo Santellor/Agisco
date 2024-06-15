@@ -58,9 +58,7 @@ export default Field
   // NEW FIELD TYPE - boolean 
   // NEW FIELD ALIASES - dark mode and metric as checkbox 
 //workouts
-  // NEW HEADER ALIAS user ID as creator
-  // NEW FIELD ALIAS user ID as users.email where userId = id
-    //call - load 
+  // NEW HEADER ALIAS email as creator
 //Workout Instances
   // NEW HEADER ALIAS workout ID as workout
   // NEW FIELD ALIAS workout ID as workouts.name where workoutId = providedUserID

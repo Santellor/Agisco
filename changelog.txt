@@ -87,8 +87,15 @@ day 9 - field day
 
 !! admin can be stored in redux to determine which CRUD tables are accessible, and if you are an admin...all fields should be editable. 
 !! deleting and editing should be subject to if you are the owner
-!! add new should be dependent on the modelRef. if you are not an admin, yous hould not be able to add a new muscle group or exercise type
+!! add new should be dependent on the modelRef. if you are not an admin, you should not be able to add a new muscle group or exercise type
 
+    fields are correctly loading in haha I may have saved a fair amount of time through eager loading
+    filtering at createdAt or updatedAt, and then cutting everything afterward
+!! loading in exercise names for workoutSteps or workout names for workoutstepdata requires a nested eager load
+!! the first login of the session always fails to reload
+!! if not logged in, it needs to redirect to home on the sessionCheck
+!! password is too short once I have finalized the project
+    I am ready to be done with tables
 MVP 2
     activeworkout
     Profile - Admin
