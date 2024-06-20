@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs'
-import { loadRecords, addRecord, removeRecord, editRecord} from "../database/queries.js"
+import { loadRecords, addRecord, removeRecord, editRecord, loadFieldDropdown, loadTableDropdown} from "../database/queries.js"
 import { 
     db, 
     User, 
@@ -66,6 +66,9 @@ const handlerFunctions = {
         const { modelRef } = req.params;
         const { entry }  = req.body;
         
+        console.log(`entry`, entry)
+        console.log(`req`, req.body)
+
         //test request structure before returning
         if (!entry) {
             res.status(400).send({
@@ -108,6 +111,7 @@ const handlerFunctions = {
         const { modelRef, id } = req.params;
         const { entry }  = req.body
 
+        console.log(req.params)
         //test request structure before returning
         if (!id) {
             res.status(400).send({
@@ -133,7 +137,42 @@ const handlerFunctions = {
             id: id,
         })
         
+    }, 
+    
+    fieldDropdown: async (req, res) => {
+
+         const { modelRef } = req.params
+         console.log(modelRef)
+
+        if (!models[modelRef]) {
+            res.status(404).send({ 
+                message: `Error404: endpoint does not exist, model ${modelRef} not mapped`,
+                success: false
+            })
+            return 
+        }
+
+        res.status(200).send( await loadFieldDropdown(models[modelRef]))
+
     },
+    
+    tableDropdown: async (req, res) => {
+
+         const { modelRef } = req.params
+         console.log(modelRef)
+
+        if (!models[modelRef]) {
+            res.status(404).send({ 
+                message: `Error404: endpoint does not exist, model ${modelRef} not mapped`,
+                success: false
+            })
+            return 
+        }
+
+        res.status(200).send( await loadTableDropdown(models[modelRef]))
+
+    },
+    
 
     register: async (req, res ) => {
         // destructure data from front end request

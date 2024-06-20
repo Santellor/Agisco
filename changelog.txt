@@ -1,3 +1,8 @@
+MVP 2
+    activeworkout
+    Profile - Admin
+    Charts
+
 day 1
     min: develop database components: db, model with relationship mapping
     max: complete seed
@@ -89,21 +94,22 @@ day 9 - field day
 !! deleting and editing should be subject to if you are the owner
 !! add new should be dependent on the modelRef. if you are not an admin, you should not be able to add a new muscle group or exercise type
 
-    fields are correctly loading in haha I may have saved a fair amount of time through eager loading
+    fields are correctly loading in I may have saved a fair amount of time through eager loading
     filtering at createdAt or updatedAt, and then cutting everything afterward
 !! loading in exercise names for workoutSteps or workout names for workoutstepdata requires a nested eager load
 !! the first login of the session always fails to reload
 !! if not logged in, it needs to redirect to home on the sessionCheck
 !! password is too short once I have finalized the project
     I am ready to be done with tables
-MVP 2
-    activeworkout
-    Profile - Admin
-    Charts
 
+day 10 - I will never be done with tables. I am a table
 
+    I made a dropdown selector for the internal filtering
+    I now need to make the headers dynamic as well
 
+day 11 -  I am still a table    
 
-
-
+    I fixed a critical error with table search generation
+    three remin
+        
     

@@ -22,7 +22,7 @@
     );
 
 // endpoints
-const {load, add, remove, edit, login, logout, register, sessionCheck } = handlerFunctions
+const {load, add, remove, edit, login, logout, register, sessionCheck, fieldDropdown, tableDropdown } = handlerFunctions
 
     // obtains database info
     // app.get('/api/load/:modelRef/:filter', load)
@@ -36,6 +36,10 @@ const {load, add, remove, edit, login, logout, register, sessionCheck } = handle
 
     // edits existing data located with an id
     app.put('/api/edit/:modelRef/:id', edit)
+
+    app.get('/api/field_dropdown/:modelRef', fieldDropdown)
+
+    app.get('/api/table_dropdown/:modelRef', tableDropdown)
 
     // handle login / logout
     app.get("/api/session-check", sessionCheck);

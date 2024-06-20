@@ -1,28 +1,61 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import axios from 'axios'
 
-const Field = ({data, editing, setter}) => {
-let type = typeof data
-// if (data[4] === '-' && data[6] === '-') type = 'date'
+const Field = ({data, editing, setter, eagerField, unique }) => {
+  const [options, setOptions] = useState([])
 
-console.log(data, type)
+  let type = typeof data 
+  if (eagerField) {
+    type = 'indirect'
+  } 
+
+    useEffect (() => {
+      if (eagerField !== undefined) {
+
+        const loadDropdownOptions = async () => {
+
+          eagerField = eagerField ?? 'users'
+          const res = await axios.get(`/api/field_dropdown/${eagerField}`)
+    
+          const selectOptions = res.data.map((el, i) => {
+          return <option key={i} value={el[0]}>{el[1]}</option>
+          })
+          setOptions(selectOptions)
+        }
+        loadDropdownOptions()
+      }
+
+    },[editing])
+    
+
+
+
+
+  const toggleBoolean = ( ) => {
+
+}
+
+const preserveTypeIntegrity = (userInput) => {
+
   switch(type) {
-    case 'number' :
-    case 'boolean' :
-    case 'date' :
-    default :
+    case 'number' : return setter(+userInput)
+    case 'boolean' : return setter(toggleBoolean)
+    case 'indirect' : return setter(userInput)
+      default : return setter(userInput)
+    }
+}
 
-  }
+  return setter && editing && eagerField !== undefined? (
+    <select onChange={(e) => preserveTypeIntegrity(e.target.value)}>
+      {options}
+    </select>
 
-  // const [viewValue, setViewValue] = useState(shellCopy)
-
-  return setter && editing?(
-    <td>
-    <input type="text" value={data} onChange={(e) => setter(e.target.value)}/>
-    </td>
+  ) : setter && editing? (
+    <input type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
   ) : (
-    <td>
-        {data}
-    </td>
+    <>
+      {data}
+    </>
   )
 }
 

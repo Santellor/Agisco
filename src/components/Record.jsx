@@ -3,7 +3,9 @@ import EditButtons from './EditButtons';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
+const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) => {
+
+  // console.log(`recordObject`, recordObject) 
 
   let timeRef, wrongTimeRef;
   if (modelRef !== 'workout_instances' || modelRef !== 'workout_step_data') {
@@ -14,46 +16,78 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
     wrongTimeRef= 'updatedAt'
 
   let fieldValuesArray = []
+  let fieldKeysArray = []
 
   let recordObjectCopy = {...recordObject}
-  console.log(`record object copy`, recordObjectCopy)
 
   delete recordObjectCopy[wrongTimeRef]
   let cutoffIndex = Object.keys(recordObjectCopy).indexOf(timeRef) + 1
 
-  for (let element in recordObjectCopy) {
-      console.log(`typeof for key`, typeof recordObjectCopy[element])
-    if (typeof recordObjectCopy[element] === 'object') {
-      let nestedValues = Object.values(recordObjectCopy[element])
-      console.log(`nestedValues`, nestedValues)
-      delete recordObjectCopy[element]
+  for (let key in recordObjectCopy) {
+    if (typeof recordObjectCopy[key] === 'object') {
+      let nestedValues = Object.values(recordObjectCopy[key])
+      let nestedKeys = Object.keys(recordObjectCopy[key])
+      delete recordObjectCopy[key]
       fieldValuesArray = [...fieldValuesArray, ...nestedValues] 
+      fieldKeysArray = [...fieldKeysArray, ...nestedKeys]
     }
   }
 
-  console.log(`after loop`, recordObjectCopy)
-  console.log(`before merge`,fieldValuesArray)
-
-  let filteredRecordValuesArray = Object.values(recordObjectCopy).slice(1,cutoffIndex)
+  let filteredRecordValuesArray = Object.values(recordObjectCopy).slice(0,cutoffIndex)
+  const trueId = filteredRecordValuesArray.shift()
+  let filteredRecordKeysArray = Object.keys(recordObjectCopy).slice(1,cutoffIndex)
   fieldValuesArray = [ ...fieldValuesArray, ...filteredRecordValuesArray]
+  fieldKeysArray = [...fieldKeysArray, ...filteredRecordKeysArray]
 
-  console.log(`after merge`,fieldValuesArray)
  
   const editingRefs = { 
-    users: [1,2], 
+    users: [0,1], 
     preferences: [1,2],
     workouts: [1],
     workout_instances: [],
     workout_step_data: [1,2,3,4],
-    workout_steps: [1,2],
-    goals: [1,2,3,4],
-    exercises: [1,2,3,7,8],
-    muscle_groups: [1,2],
-    exercise_types: [1,2],
+    workout_steps: [2,3],
+    goals: [2,3,4,5],
+    exercises: [1,2,3,4,5],
+    muscle_groups: [0,1],
+    exercise_types: [0,1],
+  }
+
+  const eagerFields = { 
+    users: [],  
+    preferences: ['users'], 
+    workouts: ['users'], 
+    workout_instances: ['workouts', 'users'],
+    workout_step_data: [],
+    workout_steps: ['exercises','workouts'],
+    goals: ['exercises', `users`],
+    exercises: ['exercise_types', 'muscle_groups', 'users'],
+    muscle_groups: [],
+    exercise_types: [],
+  }
+
+  const uniqueFields = { 
+    users: [],  
+    preferences: [], 
+    workouts: [], 
+    workout_instances: [],
+    workout_step_data: [],
+    workout_steps: [2],
+    goals: [],
+    exercises: [],
+    muscle_groups: [],
+    exercise_types: [],
   }
 
   const crudArrayRef = editingRefs[modelRef]
-  const entry = {}
+  let eagerFieldArray = eagerFields[modelRef]
+  let eagerFieldIndirectKeys = Object.keys({...recordObject}).slice(-eagerFieldArray.length * 2, -eagerFieldArray.length)
+  let displayFieldValues = fieldValuesArray
+  fieldKeysArray = [...eagerFieldIndirectKeys, ...fieldKeysArray.slice(eagerFieldIndirectKeys.length)]
+  let eagerFieldIndirectValues = Object.values({...recordObject}).slice(-eagerFieldArray.length * 2, -eagerFieldArray.length)
+  fieldValuesArray = [...eagerFieldIndirectValues, ...fieldValuesArray.slice(eagerFieldIndirectKeys.length)]
+
+  let uniqueFieldArray = uniqueFields[modelRef]
 
   const [editing, setEditing] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -63,33 +97,29 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove}) => {
   const [editingField4, setEditingField4] = useState(fieldValuesArray[crudArrayRef[3]])
   const [editingField5, setEditingField5] = useState(fieldValuesArray[crudArrayRef[4]])
   const [editingField6, setEditingField6] = useState(fieldValuesArray[crudArrayRef[5]])
-
-  useEffect( ()=> {
-    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[0]]] = editingField1
-    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[1]]] = editingField2
-    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[2]]] = editingField3
-    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[3]]] = editingField4
-    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[4]]] = editingField5
-    if (editingField1 !== undefined) entry[fieldValuesArray[crudArrayRef[5]]] = editingField6
+  let entry = {}
+    if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[0]]] = editingField1
+    if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[1]]] = editingField2
+    if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[2]]] = editingField3
+    if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[3]]] = editingField4
+    if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[4]]] = editingField5
+    if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[5]]] = editingField6
     delete entry.undefined
-    console.log(`entry`, entry)
-    },[editing])
+    // console.log(`entry`, entry)
  
   const valuePropStack = [editingField6, editingField5, editingField4, editingField3, editingField2, editingField1] 
   const setterPropStack = [setEditingField6, setEditingField5, setEditingField4, setEditingField3, setEditingField2, setEditingField1] 
 
   const editRecord = () => {
-    console.log(`modelRef`, modelRef)
-    console.log(`parentIndex`, parentIndex)
+    console.log(`trueId`, trueId)
     console.log(`entry`, entry)
-    // edit(modelRef, parentIndex, entry)
+    edit(trueId, entry)
     toggleEdit()
   }
 
   const removeRecord = () => {
-    console.log(`modelRef`, modelRef)
-    console.log(`parentIndex`, parentIndex)
-    // remove(modelRef, parentIndex)
+    console.log(`trueId`, trueId)
+    remove(trueId)
   }
     
   const toggleEdit = () => {
@@ -105,14 +135,6 @@ let i = parentIndex * 100
 
 //create our record, beginning with a component for buttons
 
-  // Deletion and editing should only render the buttons if the logged in user is the owner
-    // if admin, ignore this
-    // if a USERid is present, use that immediately
-    // if not, search using 
-        // workout step data -> instance id -> userID of instance where instanceid = instanceid
-        // workout step -> workout id -> userID of workout where workoutid = workoutid
-
-
 let dynamicRecord = [ <EditButtons 
                         key={i}
                         editRecord={editRecord}
@@ -125,19 +147,47 @@ let dynamicRecord = [ <EditButtons
 i++
 
 //loop through values. for each CRUD value, we must send a state value and then a setter 
-for (let fieldValue of fieldValuesArray) {
-  // filter out the primary key
-  // if (String(key) !== String(Object.keys(recordObject)[0])) {
-    if (crudArrayRef.includes(i-parentIndex*100-1)) {
-      dynamicRecord.push (<Field key={i} 
-                                 editing={editing}
-                                 data={valuePropStack.pop()} 
-                                 setter={setterPropStack.pop()}/>)
+for (let fieldValue of displayFieldValues) {
+    if ( crudArrayRef.includes(i-parentIndex*100-1) && eagerFieldArray.length > 0 ) {
+      dynamicRecord.push (
+        <td key={i}>
+          <Field  
+            editing={editing}
+            data={fieldValue} 
+            setter={setterPropStack.pop()}
+            eagerField = {eagerFieldArray.pop()}/>
+        </td>
+      )
+      valuePropStack.pop()
+    } else if (crudArrayRef.includes(i-parentIndex*100-1) && uniqueFieldArray.includes(i-parentIndex*100-1)) {
+      dynamicRecord.push (
+        <td key={i}>
+          <Field  
+            editing={editing}
+            data={valuePropStack.pop()} 
+            setter={setterPropStack.pop()}
+            unique={true}/>
+        </td>    
+      )
+    } else if (crudArrayRef.includes(i-parentIndex*100-1)) {
+      dynamicRecord.push (
+        <td key={i}>
+          <Field  
+            editing={editing}
+            data={valuePropStack.pop()} 
+            setter={setterPropStack.pop()}/>
+        </td>    
+      )
     }
     else {
-      dynamicRecord.push (<Field key={i}
-                                 editing={editing} 
-                                 data={fieldValue}/>)
+      dynamicRecord.push (
+        <td  key={i}>
+          <Field
+            editing={editing} 
+            data={fieldValue}/>
+        </td>
+      )
+      eagerFieldArray.pop()
     }
     i++
   // }
