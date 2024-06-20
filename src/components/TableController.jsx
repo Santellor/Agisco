@@ -71,8 +71,8 @@ const TableController = ({modelRef, filter, filterSetter, addRecord}) => {
     headerOptionsCopy = headerOptionsCopy.slice(1)
 
     const newRecord = {} 
-    const unfilteredTemplateKeys=Object.keys(recordObjectCopy)
-    const templateSpecialKeys = [...unfilteredTemplateKeys.slice(cutoffIndex)]
+    const unfilteredTemplate=Object.keys(recordObjectCopy)
+    const templateSpecialKeys = [...unfilteredTemplate.slice(cutoffIndex)]
 
     let dynamicKeys = []
     for ( let key of templateSpecialKeys) {

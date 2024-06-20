@@ -356,7 +356,7 @@ ExerciseType.init(
   //Preference
       // userId 1 - many 
         User.hasOne(Preference, { foreignKey: 'userId' });
-        Preference.belongsTo(User, { foreignKey: 'userId' });
+        Preference.belongsTo(User,  { foreignKey: 'userId' });
 
   //Workout
       // userId 1 - many 

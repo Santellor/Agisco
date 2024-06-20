@@ -17,7 +17,7 @@ const loadTable = async () => {
   let newFilter = {...filter}
   if (modelRef !== routeModelRef) {  
     console.log(`newFilter pre`, newFilter) 
-    newFilter = {}
+    newFilter = { column: 'email'}
     console.log(`newFilter post`, newFilter) 
     setFilter(newFilter)
   }

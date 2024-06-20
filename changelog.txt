@@ -110,6 +110,10 @@ day 10 - I will never be done with tables. I am a table
 day 11 -  I am still a table    
 
     I fixed a critical error with table search generation
-    three remin
-        
+    three remain    
+        header labels are not user friendly .5
+        I cannot search for eagerly loaded content in a user friendly way 4
+        I cannot edit the relative position of workout steps without messing that up 1 
+
+
     
