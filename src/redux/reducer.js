@@ -2,15 +2,13 @@
 const initialState = {
   userId: null,
   workingOut: false,
-  workoutId: 1,
-  exerciseId: 1,
+  workoutId: 4,
+  exerciseId: 2,
   groupId: 1,
   typeId: 1,
   instanceId: 1,
   workoutStepId: 1
   
-
-
 };
 
 // front end components will dispatch an action object :

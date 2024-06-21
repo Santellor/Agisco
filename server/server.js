@@ -22,7 +22,7 @@
     );
 
 // endpoints
-const {load, add, remove, edit, login, logout, register, sessionCheck, fieldDropdown, tableDropdown } = handlerFunctions
+const {load, add, remove, edit, login, logout, register, sessionCheck, fieldDropdown, tableDropdown, workoutList, workoutSteps } = handlerFunctions
 
     // obtains database info
     // app.get('/api/load/:modelRef/:filter', load)
@@ -39,7 +39,9 @@ const {load, add, remove, edit, login, logout, register, sessionCheck, fieldDrop
 
     app.get('/api/field_dropdown/:modelRef', fieldDropdown)
 
-    app.get('/api/table_dropdown/:modelRef', tableDropdown)
+    app.get('/api/get_workouts/', workoutList)
+    
+    app.get('/api/get_workout_steps/:workoutId', workoutList)
 
     // handle login / logout
     app.get("/api/session-check", sessionCheck);

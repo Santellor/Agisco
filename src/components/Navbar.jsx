@@ -41,6 +41,7 @@ const Navbar = () => {
             <nav>
                 <h1>Agisco</h1>
                 <span onClick={handleLogout}> |log out|</span>
+                <NavLink to='working_out' key='0'>|working_out`|</NavLink>
                 {tableLinks}
             </nav>
         </header>

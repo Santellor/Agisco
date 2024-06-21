@@ -13,6 +13,7 @@ import Login from './components/Login';
 import Table from './components/Table';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
+import ActiveWorkout from './components/ActiveWorkout';
 
 // create a model reference for all of the crud tables
 let modelRefs = [
@@ -41,6 +42,8 @@ const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Navbar />}>
         <Route index element={<Home />} />
+        <Route path='/working_out' element={<ActiveWorkout />} />
+        {/* add new tables with route filters as props here */}
         {tables}
       </Route>
     )

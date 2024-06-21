@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs'
-import { loadRecords, addRecord, removeRecord, editRecord, loadFieldDropdown, loadTableDropdown} from "../database/queries.js"
+import { loadRecords, addRecord, removeRecord, editRecord, loadFieldDropdown, loadTableDropdown, loadWorkoutSteps, loadWorkouts} from "../database/queries.js"
 import { 
     db, 
     User, 
@@ -170,6 +170,20 @@ const handlerFunctions = {
         }
 
         res.status(200).send( await loadTableDropdown(models[modelRef]))
+
+    },
+    
+    workoutList: async (req, res) => {
+
+        res.status(200).send( await loadWorkouts())
+
+    },
+
+    workoutSteps: async (req, res) => {
+
+        const { workoutId } = req.params
+
+        res.status(200).send( await loadWorkoutSteps(workoutId))
 
     },
     

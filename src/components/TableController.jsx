@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux'
 
-const TableController = ({modelRef, filter, filterSetter, addRecord}) => {
+const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, setSearchValue, searchOffset, setSearchOffset, displayFieldKeys, addRecord}) => {
     const userId = useSelector((state) => state.userId);
     const workoutId = useSelector((state) => state.workoutId);
     const exerciseId = useSelector((state) => state.exerciseId);
@@ -43,9 +43,8 @@ const TableController = ({modelRef, filter, filterSetter, addRecord}) => {
 
   useEffect(() => {
     setTemplate({})
-    filterSetter({})
 
-      loadTemplate()
+    loadTemplate()
   }, [modelRef])
   let recordObjectCopy = template
 
@@ -103,13 +102,12 @@ const TableController = ({modelRef, filter, filterSetter, addRecord}) => {
     let options = []
 
     const changeFilterColumn = (userColumnInput) => {
-        const newFilter = {...filter, column: userColumnInput}
-        filterSetter(newFilter)
+        setSearchColumn(userColumnInput)
     } 
 
-    let selectCopy = [...templateFinalKeys]
+    let selectCopy = [...displayFieldKeys].slice(1)
 
-    let defaultOptionIndex = selectCopy.indexOf(filter.column)
+    let defaultOptionIndex = selectCopy.indexOf(searchColumn)
     if(defaultOptionIndex >= 0) {
         let defaultOption = selectCopy[defaultOptionIndex]
         selectCopy.splice(defaultOptionIndex, 1)
@@ -128,31 +126,27 @@ const TableController = ({modelRef, filter, filterSetter, addRecord}) => {
     // value text input),
 
     const changeFilterValue = (userValueInput) => {
-        const newFilter = {...filter, value: userValueInput}
-        filterSetter(newFilter)
+        setSearchValue(userValueInput)
     } 
 
     // and arrows for determining offset
     const changeFilterOffset = (userOffsetInput) => {
-        if (filter.offset === undefined) filter.offset = 0
-        if (filter.offset + userOffsetInput < 0) filter.offset = -userOffsetInput
-        const newFilter = {...filter, offset: filter.offset + userOffsetInput}
-        filterSetter(newFilter)
+        if (searchOffset + userOffsetInput < 0) setSearchOffset(0)
+        else setSearchOffset(searchOffset + userOffsetInput)
     } 
 
-    let searchField = filter.value ?? ''
-    let searchColumn = filter.column ?? 'search a column'
+    let field = searchValue ?? ''
+    let column = searchColumn ?? 'search a column'
 
 
   return (
   <>
-    <select value={searchColumn} onChange={(e) => changeFilterColumn(e.target.value)}>
+    <select value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
       {options}
-    </select>
-    <input type="text" value={searchField} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>
-    <button onClick={() => addRecord(newRecord)}>add new</button>
-    <button onClick={() => changeFilterOffset(20)}>next</button>
-    <button onClick={() => changeFilterOffset(-20)}>back</button>
+    </select> 
+     <input type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     <button onClick={() => addRecord(newRecord)}>add new</button>
+    <button onClick={() => changeFilterOffset(1)}>next</button>
+    <button onClick={() => changeFilterOffset(-1)}>back</button>
   
   </>
   )

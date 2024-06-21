@@ -5,24 +5,19 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) => {
 
-  // console.log(`recordObject`, recordObject) 
+  console.log(`recordObject`, recordObject) 
 
   let timeRef, wrongTimeRef;
   if (modelRef !== 'workout_instances' || modelRef !== 'workout_step_data') {
     timeRef = 'updatedAt'
-    wrongTimeRef = 'createdAt'
-  } else {}
+  } else {
     timeRef = 'createdAt'
-    wrongTimeRef= 'updatedAt'
+  }
 
   let fieldValuesArray = []
   let fieldKeysArray = []
 
   let recordObjectCopy = {...recordObject}
-
-  delete recordObjectCopy[wrongTimeRef]
-  let cutoffIndex = Object.keys(recordObjectCopy).indexOf(timeRef) + 1
-
   for (let key in recordObjectCopy) {
     if (typeof recordObjectCopy[key] === 'object') {
       let nestedValues = Object.values(recordObjectCopy[key])
@@ -33,9 +28,9 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) 
     }
   }
 
-  let filteredRecordValuesArray = Object.values(recordObjectCopy).slice(0,cutoffIndex)
+  let filteredRecordValuesArray = Object.values(recordObjectCopy)
   const trueId = filteredRecordValuesArray.shift()
-  let filteredRecordKeysArray = Object.keys(recordObjectCopy).slice(1,cutoffIndex)
+  let filteredRecordKeysArray = Object.keys(recordObjectCopy).slice(1)
   fieldValuesArray = [ ...fieldValuesArray, ...filteredRecordValuesArray]
   fieldKeysArray = [...fieldKeysArray, ...filteredRecordKeysArray]
 
@@ -46,7 +41,7 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) 
     workouts: [1],
     workout_instances: [],
     workout_step_data: [1,2,3,4],
-    workout_steps: [2,3],
+    workout_steps: [0,1,2,3],
     goals: [2,3,4,5],
     exercises: [1,2,3,4,5],
     muscle_groups: [0,1],
@@ -81,12 +76,25 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) 
 
   const crudArrayRef = editingRefs[modelRef]
   let eagerFieldArray = eagerFields[modelRef]
-  let eagerFieldIndirectKeys = Object.keys({...recordObject}).slice(-eagerFieldArray.length * 2, -eagerFieldArray.length)
-  let displayFieldValues = fieldValuesArray
-  fieldKeysArray = [...eagerFieldIndirectKeys, ...fieldKeysArray.slice(eagerFieldIndirectKeys.length)]
-  let eagerFieldIndirectValues = Object.values({...recordObject}).slice(-eagerFieldArray.length * 2, -eagerFieldArray.length)
-  fieldValuesArray = [...eagerFieldIndirectValues, ...fieldValuesArray.slice(eagerFieldIndirectKeys.length)]
 
+  let displayFieldValues = fieldValuesArray
+  
+  if (eagerFieldArray.length > 0 ) {
+
+    
+    let eagerFieldIndirectKeys = Object.keys({...recordObject}).slice(-eagerFieldArray.length)
+    fieldKeysArray = [...eagerFieldIndirectKeys, ...fieldKeysArray.slice(eagerFieldIndirectKeys.length)]
+    let eagerFieldIndirectValues = Object.values({...recordObject}).slice(-eagerFieldArray.length)
+    fieldValuesArray = [...eagerFieldIndirectValues, ...fieldValuesArray.slice(eagerFieldIndirectKeys.length)]
+    
+    console.log(`eagerFieldIndirectKeys`, eagerFieldIndirectKeys)
+    console.log(`fieldKeysArray`, fieldKeysArray)
+    console.log(`eagerFieldIndirectValues`, eagerFieldIndirectValues)
+    console.log(`fieldValuesArray`, fieldValuesArray)
+    
+  }
+  
+  
   let uniqueFieldArray = uniqueFields[modelRef]
 
   const [editing, setEditing] = useState(false)

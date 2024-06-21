@@ -3,30 +3,27 @@ import axios from 'axios'
 import Record from './Record'
 import TableController from './TableController'
 
-const Table = ({routeModelRef}) => {
+const Table = ({routeModelRef , filter }) => {
 
 const [tableData, setTableData] = useState([])
+const [filteredTableData, setFilteredTableData] = useState([])
 const [modelRef, setModelRef] = useState()
-const [filter, setFilter] = useState({})
+const [searchColumn, setSearchColumn] = useState()
+const [searchValue, setSearchValue] = useState()
+const [searchOffset, setSearchOffset] = useState(0)
+const [displayFieldKeys, setDisplayFieldKeys] = useState([])
+const [timeRef, setTimeRef] = useState('updatedAt')
+const [wrongTimeRef, setWrongTimeRef] = useState('createdAt')
 
 const loadTable = async () => {
-
-  console.log(`filter`, filter)
-  console.log(`modelRef`, modelRef)
-  console.log(`routeModelRef`, routeModelRef)
-  let newFilter = {...filter}
-  if (modelRef !== routeModelRef) {  
-    console.log(`newFilter pre`, newFilter) 
-    newFilter = { column: 'email'}
-    console.log(`newFilter post`, newFilter) 
-    setFilter(newFilter)
-  }
+  if (filter === undefined) filter = {}
+  
   // create a query string
   let filterQueryString = ""
   
   // for filter specifications, loop through to add them to query
-  for (let searchParam in newFilter) {
-      filterQueryString += `${searchParam}=${newFilter[searchParam]}&`
+  for (let searchParam in filter) {
+      filterQueryString += `${searchParam}=${filter[searchParam]}&`
       }
   
   // if none were added, we want them all! 
@@ -42,9 +39,76 @@ const loadTable = async () => {
 
 // clear past table data from previous renders, then load new data
   setTableData([])
-  const {data} = await axios.get(`/api/load/${routeModelRef}/${filterQueryString}`,)
-    setTableData(data)
+  setFilteredTableData([])
+  let {data} = await axios.get(`/api/load/${routeModelRef}/${filterQueryString}`,)
 
+  if (modelRef === 'workout_instances' || modelRef === 'workout_step_data') {
+    setWrongTimeRef('updatedAt')
+    setTimeRef('createdAt')
+  } else {
+    setWrongTimeRef('createdAt')
+    setTimeRef('updatedAt')
+
+  }
+  console.log(`modelRef1`, modelRef)
+  console.log(`wrongTimeRef1`, wrongTimeRef)
+
+  let dataCopy = [...data]
+
+  dataCopy.map( async (el, i) => {
+
+    let record = el
+  
+      let createdDate = new Date(record.createdAt)
+      let fullCreatedDate = new Intl.DateTimeFormat(
+      'en-US').format(createdDate)
+      record.createdAt = fullCreatedDate
+      let updatedDate = new Date(record.updatedAt)
+      let fullUpdatedDate = new Intl.DateTimeFormat(
+      'en-US').format(updatedDate)
+      record.updatedAt = fullUpdatedDate
+
+    el = record
+  })
+
+  dataCopy.forEach((record, i) => {
+    
+    let fieldValuesArray = []
+    let fieldKeysArray = []
+
+  let recordObjectCopy = record
+
+  for (let key in recordObjectCopy) {
+    if (typeof recordObjectCopy[key] === 'object') {
+      let nestedValues = Object.values(recordObjectCopy[key])
+      let nestedKeys = Object.keys(recordObjectCopy[key])
+      delete recordObjectCopy[key]
+      fieldValuesArray = [...fieldValuesArray, ...nestedValues] 
+      fieldKeysArray = [...fieldKeysArray, ...nestedKeys]
+    }
+  }
+  let filteredRecordValuesArray = Object.values(recordObjectCopy)
+  let filteredRecordKeysArray = Object.keys(recordObjectCopy)
+  fieldValuesArray = [ ...filteredRecordValuesArray.slice(0,1), ...fieldValuesArray, ...filteredRecordValuesArray.slice(1)]
+  fieldKeysArray = [ ...filteredRecordKeysArray.slice(0,1),  ...fieldKeysArray, ...filteredRecordKeysArray.slice(1)]
+
+
+  record = {}
+
+  fieldKeysArray.forEach((el, i) => {
+    record[el] = fieldValuesArray[i]
+  })
+  // console.log(`fieldKeysArray`, fieldKeysArray)
+  // console.log(`fieldValuesArray`, fieldValuesArray)
+  // console.log(`record`, record)
+  dataCopy[i] = record
+  })
+  console.log(dataCopy)
+  setDisplayFieldKeys(['', ...Object.keys(dataCopy[0]).slice(1)])
+
+  setTableData([...dataCopy])
+ 
+  setFilteredTableData([...dataCopy])
 }
  
 // add a record
@@ -74,40 +138,39 @@ const editRecord = async (id, entry) => {
 useEffect(() => {
     console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
     setModelRef(routeModelRef)
+    setSearchColumn()
+    setSearchValue()
+    setSearchOffset(0)
     loadTable()
-},[routeModelRef, filter])
+},[routeModelRef, filter, ])
 
+useEffect(() => {
+    console.log(`search filter useEffect, passed ${routeModelRef}`)
+    setModelRef(routeModelRef)
+    
+    setFilteredTableData([...tableData])
+    console.log(`searchColumn`, searchColumn)
+    console.log(`searchValue`, searchValue)
+    console.log(`searchOffset`, searchOffset)
 
+    let newData = [...tableData]
 
-let timeRef, wrongTimeRef;
-  if (modelRef !== 'workout_instances' || modelRef !== 'workout_step_data') {
-    timeRef = 'updatedAt'
-    wrongTimeRef = 'createdAt'
-  } else {}
-    timeRef = 'createdAt'
-    wrongTimeRef= 'updatedAt'
+    if (searchValue !== undefined && searchColumn!== undefined)  
+      newData = tableData.map((el) => {
+      // console.log('stage 1', el)
+      // console.log('stage 2', el[searchColumn])
+      // console.log('stage 3', String(el[searchColumn]).includes(searchValue))
+      return String(el[searchColumn]).includes(searchValue)? el = el : null
+      })
+      // console.log('stage 4', newData)
+      // let finalData = newData.filter(el => el !== null)
+    setFilteredTableData(newData.slice(searchOffset ?? 0))
 
-  let fieldKeysArray = []
-  
-  let recordObjectCopy = {...tableData[0]}
-
-  delete recordObjectCopy[wrongTimeRef]
-  let cutoffIndex = Object.keys(recordObjectCopy).indexOf(timeRef) + 1
-
-  for (let key in recordObjectCopy) {
-    if (typeof recordObjectCopy[key] === 'object') {
-      let nestedKeys = Object.keys(recordObjectCopy[key])
-      delete recordObjectCopy[key] 
-      fieldKeysArray = [...fieldKeysArray, ...nestedKeys]
+    if (searchValue === "") {
+      setSearchValue(undefined)
     }
-  }
 
-  let filteredRecordKeysArray = Object.keys(recordObjectCopy).slice(1,cutoffIndex)
-  let filteredRecordValuesArray = Object.values(recordObjectCopy).slice(1,cutoffIndex)
-  
-  fieldKeysArray = [...fieldKeysArray, ...filteredRecordKeysArray]
-
-  let displayFieldKeys = ['', ...fieldKeysArray]
+},[searchColumn, searchValue, searchOffset, tableData])
 
 const tableHead = displayFieldKeys.map((element, index) => 
      <th key={index}>
@@ -115,20 +178,32 @@ const tableHead = displayFieldKeys.map((element, index) =>
      </th>
 )
 
-const tableBody = tableData.map((element, index) =>
+const tableBody = filteredTableData.map((element, index) => {
+   if (element !== null) {
+    return element =
     < Record
-      recordObject={element}
-      modelRef={modelRef}
-      parentIndex={index + 1}
-      edit={editRecord}
-      remove={removeRecord}
-      key={index}
-    />
-)
+    recordObject={element}
+    modelRef={modelRef}
+    parentIndex={index + 1}
+    edit={editRecord}
+    remove={removeRecord}
+    key={index}
+  />
+  }
+})
 
   return (
     <div>
-       < TableController modelRef={routeModelRef} filter={filter} filterSetter={setFilter} addRecord={addRecord}/>
+       < TableController 
+          modelRef={routeModelRef} 
+          searchColumn={searchColumn}
+          setSearchColumn={setSearchColumn} 
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          searchOffset={searchOffset}
+          setSearchOffset={setSearchOffset}
+          displayFieldKeys={displayFieldKeys}
+          addRecord={addRecord}/>
   <table>
     <thead>
         <tr>

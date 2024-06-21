@@ -89,7 +89,7 @@ const loadRecords = async (model, modelRef, filter) => {
     order = filter.order ?? 'updatedAt'
     console.log(`modelRef`, modelRef)
     console.log(`includeRefs`, includeRefs[modelRef])
-    console.log(`includeRefs.User`, includeRefs.users)
+    console.log(`filter`, filter)
     
     //return the desired table, limiting, offsetting, and ordering as dictated by the filter
     let loadData = await model.findAll({
@@ -168,8 +168,6 @@ const loadFieldDropdown = async (model) => {
 
 const loadTableDropdown = async (model) => {
 
-    console.log(model)
-
     let attributeSource = await model.findOne({})
     attributeSource = Object.values(attributeSource)[0]
     console.log(`raw attribute`, attributeSource)
@@ -194,7 +192,28 @@ const loadTableDropdown = async (model) => {
      return finalOptions
 }
 
-export { loadRecords, addRecord, removeRecord, editRecord, loadFieldDropdown, loadTableDropdown}
+const loadWorkoutSteps = async (workoutId) => {
+
+    console.log(workoutId)
+
+    const workoutSteps = await WorkoutStep.findAll({
+    })
+
+    return workoutSteps
+
+
+}
+
+const loadWorkouts = async () => {
+
+    const workouts = await Workout.findAll({
+        attributes: ['workoutId', 'workoutName']
+    })
+    console.log(`workouts`, workouts)
+     return workouts
+}
+
+export { loadRecords, addRecord, removeRecord, editRecord, loadFieldDropdown, loadTableDropdown, loadWorkoutSteps, loadWorkouts}
 
 // await db.close()
 
