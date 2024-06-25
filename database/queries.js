@@ -71,15 +71,15 @@ const loadRecords = async (model, modelRef, filter) => {
     let search, offset, order
    
     //check for filter columns and values. if they do not exist, return an empty search
-    console.log(`typeof`, typeof filter.value)
+    
     console.log(`filter column`,  filter.column)
-
     if (!isNaN(filter.value)) filter.value = +filter.value
+    console.log(`typeof`, typeof filter.value)
     if( filter.column && typeof filter.value === 'string') {
         search = {[filter.column] : {
         [Op.substring] : [filter.value]}
         } 
-    } else if (filter.column && filter.value) {
+    } else if (filter.column !== undefined && filter.column !== null && filter.value !== undefined && filter.value !== null) {
         search = {[filter.column] : [filter.value]}
     } else {
         search = {}

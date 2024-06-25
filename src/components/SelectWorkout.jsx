@@ -58,7 +58,7 @@ const swolPatrol = async () => {
 
   await newInstance()
   dispatch({type:"START_WORKOUT"})
-  navigate("/")
+  navigate("/working_out")
 
 }
 

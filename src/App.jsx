@@ -73,10 +73,11 @@ function App() {
   
   useEffect(() => {
     sessionCheck()
-  }, [userId, workingOut,])
+  }, [userId,])
   
   return userId? 
-  workingOut? ( <ActiveWorkout/>) : ( <RouterProvider router={router}/>) : ( <Login/> )
+  // workingOut? ( <ActiveWorkout/>) : ( <RouterProvider router={router}/>) : ( <Login/> )
+  ( <RouterProvider router={router}/>) : ( <Login/> )
 }
 
 export default App

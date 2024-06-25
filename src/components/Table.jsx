@@ -34,7 +34,7 @@ const loadTable = async () => {
 
   // for debugging
   
-  console.log(`filterQueryString`, filterQueryString)
+  // console.log(`filterQueryString`, filterQueryString)
   // console.log(`/api/load/${modelRef}/${filterQueryString}`)
 
 // clear past table data from previous renders, then load new data
@@ -50,8 +50,8 @@ const loadTable = async () => {
     setTimeRef('updatedAt')
 
   }
-  console.log(`modelRef1`, modelRef)
-  console.log(`wrongTimeRef1`, wrongTimeRef)
+  // console.log(`modelRef1`, modelRef)
+  // console.log(`wrongTimeRef1`, wrongTimeRef)
 
   let dataCopy = [...data]
 
@@ -79,6 +79,10 @@ const loadTable = async () => {
   let recordObjectCopy = record
 
   for (let key in recordObjectCopy) {
+    if (recordObjectCopy[key] === undefined)
+      delete recordObjectCopy[key]
+    if (recordObjectCopy[key] === null)
+      recordObjectCopy[key] = 0
     if (typeof recordObjectCopy[key] === 'object') {
       let nestedValues = Object.values(recordObjectCopy[key])
       let nestedKeys = Object.keys(recordObjectCopy[key])
@@ -103,7 +107,7 @@ const loadTable = async () => {
   // console.log(`record`, record)
   dataCopy[i] = record
   })
-  console.log(dataCopy)
+  // console.log(dataCopy)
   setDisplayFieldKeys(['', ...Object.keys(dataCopy[0]).slice(1)])
 
   setTableData([...dataCopy])
@@ -136,7 +140,7 @@ const editRecord = async (id, entry) => {
 }
 
 useEffect(() => {
-    console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
+    // console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
     setModelRef(routeModelRef)
     setSearchColumn(searchColumnDefault)
     setSearchValue(searchValueDefault)
@@ -145,13 +149,13 @@ useEffect(() => {
 },[routeModelRef, filter, searchColumnDefault, searchValueDefault ])
 
 useEffect(() => {
-    console.log(`search filter useEffect, passed ${routeModelRef}`)
+    // console.log(`search filter useEffect, passed ${routeModelRef}`)
     setModelRef(routeModelRef)
     
     setFilteredTableData([...tableData])
-    console.log(`searchColumn`, searchColumn)
-    console.log(`searchValue`, searchValue)
-    console.log(`searchOffset`, searchOffset)
+    // console.log(`searchColumn`, searchColumn)
+    // console.log(`searchValue`, searchValue)
+    // console.log(`searchOffset`, searchOffset)
 
     let newData = [...tableData]
 
