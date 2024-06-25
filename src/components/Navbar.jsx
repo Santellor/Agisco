@@ -15,7 +15,7 @@ let modelRefs = [
     `exercise_types`
   ]
 
-let tableLinks = modelRefs.map((el,i = i + 2) => {
+let tableLinks = modelRefs.map((el,i = i + 4) => {
     return <NavLink to={el} key={i}>|{el}|</NavLink>
 })
 
@@ -41,7 +41,8 @@ const Navbar = () => {
             <nav>
                 <h1>Agisco</h1>
                 <span onClick={handleLogout}> |log out|</span>
-                <NavLink to='working_out' key='0'>|working_out`|</NavLink>
+                <NavLink to='workout_selector' key='0'>|find a workout|</NavLink>
+                <NavLink to='working_out' key='1'>|working_out|</NavLink>
                 {tableLinks}
             </nav>
         </header>

@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const Field = ({data, editing, setter, eagerField, unique }) => {
   const [options, setOptions] = useState([])
+  const [checked, setChecked] = useState(data)
 
   let type = typeof data 
   if (eagerField) {
@@ -31,11 +32,27 @@ const Field = ({data, editing, setter, eagerField, unique }) => {
 
 
 
-  const toggleBoolean = ( ) => {
+  const toggleBoolean = (input) => {
+
+     setChecked(!input)
+
+     return !checked
 
 }
 
 const preserveTypeIntegrity = (userInput) => {
+
+  console.log(userInput)
+  console.log(type)
+  console.log(+userInput)
+  console.log( isNaN(userInput))
+
+  
+  if (type === 'number' && isNaN(userInput) ) { 
+    console.log(`fired`)
+    userInput = 0
+  }
+  console.log(userInput)
 
   switch(type) {
     case 'number' : return setter(+userInput)
@@ -50,11 +67,15 @@ const preserveTypeIntegrity = (userInput) => {
       {options}
     </select>
 
+  ) : setter && editing && type === 'boolean' && checked === true ? (
+    <p onClick={(e) => preserveTypeIntegrity(e.target.value)}>true</p>
+  ) : setter && editing && type === 'boolean' && checked === false ? (
+    <p onClick={(e) => preserveTypeIntegrity(e.target.value)}>false</p>
   ) : setter && editing? (
     <input type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
   ) : (
     <>
-      {data}
+      {String(data)}
     </>
   )
 }

@@ -41,7 +41,7 @@ const {load, add, remove, edit, login, logout, register, sessionCheck, fieldDrop
 
     app.get('/api/get_workouts/', workoutList)
     
-    app.get('/api/get_workout_steps/:workoutId', workoutList)
+    app.get('/api/get_workout_steps/:workoutId', workoutSteps)
 
     // handle login / logout
     app.get("/api/session-check", sessionCheck);

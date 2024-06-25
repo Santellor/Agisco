@@ -73,6 +73,8 @@ const loadRecords = async (model, modelRef, filter) => {
     //check for filter columns and values. if they do not exist, return an empty search
     console.log(`typeof`, typeof filter.value)
     console.log(`filter column`,  filter.column)
+
+    if (!isNaN(filter.value)) filter.value = +filter.value
     if( filter.column && typeof filter.value === 'string') {
         search = {[filter.column] : {
         [Op.substring] : [filter.value]}
@@ -116,6 +118,7 @@ const addRecord = async (model, entry) => {
     console.log(`entry`, entry)
     
     const addedRecord = await model.create(entry) 
+    console.log(`addedRecord`, addedRecord)
     return addedRecord
 }
 
@@ -194,9 +197,12 @@ const loadTableDropdown = async (model) => {
 
 const loadWorkoutSteps = async (workoutId) => {
 
-    console.log(workoutId)
-
     const workoutSteps = await WorkoutStep.findAll({
+        where: {
+            workoutId: [workoutId],
+            
+        },
+        order: ['relativePosition']
     })
 
     return workoutSteps
@@ -207,7 +213,8 @@ const loadWorkoutSteps = async (workoutId) => {
 const loadWorkouts = async () => {
 
     const workouts = await Workout.findAll({
-        attributes: ['workoutId', 'workoutName']
+        attributes: ['workoutId', 'workoutName'],
+        
     })
     console.log(`workouts`, workouts)
      return workouts

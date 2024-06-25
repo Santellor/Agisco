@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) => {
 
-  console.log(`recordObject`, recordObject) 
+  // console.log(`recordObject`, recordObject) 
 
   let timeRef, wrongTimeRef;
   if (modelRef !== 'workout_instances' || modelRef !== 'workout_step_data') {
@@ -42,7 +42,7 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) 
     workout_instances: [],
     workout_step_data: [1,2,3,4],
     workout_steps: [0,1,2,3],
-    goals: [2,3,4,5],
+    goals: [1,2,3,4,5],
     exercises: [1,2,3,4,5],
     muscle_groups: [0,1],
     exercise_types: [0,1],
@@ -87,10 +87,10 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) 
     let eagerFieldIndirectValues = Object.values({...recordObject}).slice(-eagerFieldArray.length)
     fieldValuesArray = [...eagerFieldIndirectValues, ...fieldValuesArray.slice(eagerFieldIndirectKeys.length)]
     
-    console.log(`eagerFieldIndirectKeys`, eagerFieldIndirectKeys)
-    console.log(`fieldKeysArray`, fieldKeysArray)
-    console.log(`eagerFieldIndirectValues`, eagerFieldIndirectValues)
-    console.log(`fieldValuesArray`, fieldValuesArray)
+    // console.log(`eagerFieldIndirectKeys`, eagerFieldIndirectKeys)
+    // console.log(`fieldKeysArray`, fieldKeysArray)
+    // console.log(`eagerFieldIndirectValues`, eagerFieldIndirectValues)
+    // console.log(`fieldValuesArray`, fieldValuesArray)
     
   }
   

@@ -35,6 +35,7 @@ const handlerFunctions = {
         const { modelRef , filterQueryString } = req.params; 
         const filterParams = new URLSearchParams(filterQueryString)
 
+        console.log(`filterQueryString`, filterQueryString)
         //process filter data
         let filter;
         if (filterQueryString) {
@@ -79,10 +80,8 @@ const handlerFunctions = {
         }
         
         //adds to DB
-        addRecord(models[modelRef], entry)
-        res.status(200).send({
-            message:`entry:${entry} added`,
-            success: true});
+        
+        res.status(200).send(await addRecord(models[modelRef], entry));
     },
 
 // Delete to remove an item
@@ -132,10 +131,7 @@ const handlerFunctions = {
         //removes from DB with the specified id
         await editRecord(models[modelRef], id, entry);
         // reference db through a query and return all records
-        res.status(200).send({
-            success: true,
-            id: id,
-        })
+        res.status(200).send(await editRecord(models[modelRef], id, entry))
         
     }, 
     
@@ -182,6 +178,7 @@ const handlerFunctions = {
     workoutSteps: async (req, res) => {
 
         const { workoutId } = req.params
+        console.log(`workoutId`, workoutId)
 
         res.status(200).send( await loadWorkoutSteps(workoutId))
 

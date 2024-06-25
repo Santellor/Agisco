@@ -7,7 +7,8 @@ const initialState = {
   groupId: 1,
   typeId: 1,
   instanceId: 1,
-  workoutStepId: 1
+  workoutStepId: 1,
+  goalId: 1
   
 };
 

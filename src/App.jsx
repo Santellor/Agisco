@@ -7,12 +7,14 @@ import {
   Route,
   createRoutesFromElements,
   RouterProvider,
+  useNavigate,
   } from 'react-router-dom';
   
 import Login from './components/Login';
 import Table from './components/Table';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
+import SelectWorkout from './components/SelectWorkout';
 import ActiveWorkout from './components/ActiveWorkout';
 
 // create a model reference for all of the crud tables
@@ -43,6 +45,7 @@ const router = createBrowserRouter(
       <Route path='/' element={<Navbar />}>
         <Route index element={<Home />} />
         <Route path='/working_out' element={<ActiveWorkout />} />
+        <Route path='/workout_selector' element={<SelectWorkout />} />
         {/* add new tables with route filters as props here */}
         {tables}
       </Route>

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux'
 
-const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, setSearchValue, searchOffset, setSearchOffset, displayFieldKeys, addRecord}) => {
+const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, setSearchValue, searchOffset, setSearchOffset, displayFieldKeys, viewController, addRecord}) => {
     const userId = useSelector((state) => state.userId);
     const workoutId = useSelector((state) => state.workoutId);
     const exerciseId = useSelector((state) => state.exerciseId);
@@ -12,6 +12,8 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
     const workoutStepId = useSelector((state) => state.workoutStepId);
     const [template, setTemplate] = useState({})
     const dispatch = useDispatch() 
+
+    if (viewController === false) return (<></>)
 
     let dynamicRefs = {
         userId: userId,
@@ -82,11 +84,9 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
     for (let value of templateValues) {
         let valueType = typeof value 
 
-        
-            if (valueType === 'number') staticValues.push(1)
+            if (valueType === 'number') staticValues.push(0)
             else if (valueType === 'boolean') staticValues.push(false)
             else staticValues.push(`new`)
-        
         
     }
 
@@ -144,7 +144,8 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
     <select value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
       {options}
     </select> 
-     <input type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     <button onClick={() => addRecord(newRecord)}>add new</button>
+     <input type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     
+    <button onClick={() => addRecord(newRecord)}>add new</button>
     <button onClick={() => changeFilterOffset(1)}>next</button>
     <button onClick={() => changeFilterOffset(-1)}>back</button>
   

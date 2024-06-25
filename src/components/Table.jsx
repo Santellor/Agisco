@@ -3,13 +3,13 @@ import axios from 'axios'
 import Record from './Record'
 import TableController from './TableController'
 
-const Table = ({routeModelRef , filter }) => {
+const Table = ({routeModelRef , filter, searchColumnDefault, searchValueDefault, viewController }) => {
 
 const [tableData, setTableData] = useState([])
 const [filteredTableData, setFilteredTableData] = useState([])
 const [modelRef, setModelRef] = useState()
-const [searchColumn, setSearchColumn] = useState()
-const [searchValue, setSearchValue] = useState()
+const [searchColumn, setSearchColumn] = useState(searchColumnDefault)
+const [searchValue, setSearchValue] = useState(searchValueDefault)
 const [searchOffset, setSearchOffset] = useState(0)
 const [displayFieldKeys, setDisplayFieldKeys] = useState([])
 const [timeRef, setTimeRef] = useState('updatedAt')
@@ -138,11 +138,11 @@ const editRecord = async (id, entry) => {
 useEffect(() => {
     console.log(`loader useEffect, passed ${routeModelRef} and filter: ${filter}`)
     setModelRef(routeModelRef)
-    setSearchColumn()
-    setSearchValue()
+    setSearchColumn(searchColumnDefault)
+    setSearchValue(searchValueDefault)
     setSearchOffset(0)
     loadTable()
-},[routeModelRef, filter, ])
+},[routeModelRef, filter, searchColumnDefault, searchValueDefault ])
 
 useEffect(() => {
     console.log(`search filter useEffect, passed ${routeModelRef}`)
@@ -203,6 +203,7 @@ const tableBody = filteredTableData.map((element, index) => {
           searchOffset={searchOffset}
           setSearchOffset={setSearchOffset}
           displayFieldKeys={displayFieldKeys}
+          viewController={viewController}
           addRecord={addRecord}/>
   <table>
     <thead>

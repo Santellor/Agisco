@@ -99,6 +99,7 @@ day 9 - field day
 !! loading in exercise names for workoutSteps or workout names for workoutstepdata requires a nested eager load
 !! the first login of the session always fails to reload
 !! if not logged in, it needs to redirect to home on the sessionCheck
+    !! navigate to login
 !! password is too short once I have finalized the project
     I am ready to be done with tables
 
@@ -112,12 +113,37 @@ day 11 -  I am still a table
     I fixed a critical error with table search generation
     4 remain    
         header labels are not user friendly .5
-        I cannot search for eagerly loaded content in a user friendly way 4
-    ** frontend filter
-        I cannot edit the relative position of workout steps without messing that up 
+!! I cannot edit the relative position of workout steps without messing that up 
     ** backend route to update all workout steps with a specified ID
-        I need a checkbox
-        booleans are doodoo
-            if column is looking for a boolean, only update the filter when true or false are present
+    
+day 12 - I am a table stacked on top of a table
+    
+    fixed more critical errors in the methods employed to display data
+    readjusted the program to be less user friendly to save time on trimming
+    employed front end filtering to cut down on back-end calls where possible
+
+day 13
+!! cascade deletion to avoid incongruency
+
+
+!! active workout endpoint
+    create a new workout instance
+    set workout instance default 
+    for each workout step,
+        set workout step default 
+        create a workout step data
+
+!! stretch goals
+    view goals compared to data with charts 
+        load goals for exercise 
+            load all workout step data with exerciseId = exercise 
+
+day 14
+
+    workout step loading with creation of new workout step data
+    goal vs data comparison
+!! refresh with active workout should preserve workout state
+
+
 
     
