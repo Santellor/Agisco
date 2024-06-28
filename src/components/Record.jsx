@@ -3,7 +3,7 @@ import EditButtons from './EditButtons';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) => {
+const Record = ({recordObject, modelRef, parentIndex, edit, remove, cutoffIndex}) => {
 
   // console.log(`recordObject`, recordObject) 
 
@@ -77,7 +77,7 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, setHeader}) 
   const crudArrayRef = editingRefs[modelRef]
   let eagerFieldArray = eagerFields[modelRef]
 
-  let displayFieldValues = fieldValuesArray
+  let displayFieldValues = fieldValuesArray.slice(0,cutoffIndex-1)
   
   if (eagerFieldArray.length > 0 ) {
 
@@ -156,44 +156,45 @@ i++
 
 //loop through values. for each CRUD value, we must send a state value and then a setter 
 for (let fieldValue of displayFieldValues) {
+    
     if ( crudArrayRef.includes(i-parentIndex*100-1) && eagerFieldArray.length > 0 ) {
       dynamicRecord.push (
-        <td key={i}>
+        <div key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
           <Field  
             editing={editing}
             data={fieldValue} 
             setter={setterPropStack.pop()}
             eagerField = {eagerFieldArray.pop()}/>
-        </td>
+        </div>
       )
       valuePropStack.pop()
     } else if (crudArrayRef.includes(i-parentIndex*100-1) && uniqueFieldArray.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (
-        <td key={i}>
+        <div key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
           <Field  
             editing={editing}
             data={valuePropStack.pop()} 
             setter={setterPropStack.pop()}
             unique={true}/>
-        </td>    
+        </div>    
       )
     } else if (crudArrayRef.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (
-        <td key={i}>
+        <div key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
           <Field  
             editing={editing}
             data={valuePropStack.pop()} 
             setter={setterPropStack.pop()}/>
-        </td>    
+        </div>    
       )
     }
     else {
       dynamicRecord.push (
-        <td  key={i}>
+        <div  key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
           <Field
             editing={editing} 
             data={fieldValue}/>
-        </td>
+        </div>
       )
       eagerFieldArray.pop()
     }
@@ -202,9 +203,11 @@ for (let fieldValue of displayFieldValues) {
 }
 
 return (
-    <tr>
-        {dynamicRecord}
-    </tr>
+    <>
+    
+    {dynamicRecord}
+    </>
+    
   )
 }
 

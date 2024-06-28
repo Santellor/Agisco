@@ -3,6 +3,7 @@ const initialState = {
   userId: null,
   workingOut: false,
   workoutId: 4,
+  workoutName: 'user1 workout1',
   exerciseId: 2,
   groupId: 1,
   typeId: 1,

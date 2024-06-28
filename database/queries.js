@@ -84,6 +84,9 @@ const loadRecords = async (model, modelRef, filter) => {
     } else {
         search = {}
     }
+
+    if (filter.value === undefined)
+        return 'Absolutely not you fucking wanker'
    
     //apply a default for offset and order if they are not specified
     console.log(`filter offset`, filter.offset)
@@ -97,7 +100,7 @@ const loadRecords = async (model, modelRef, filter) => {
     let loadData = await model.findAll({
         where: search,
         include: includeRefs[modelRef],
-        limit: 20,
+        limit: 100,
         offset: offset,
         order: db.col(order)
     })

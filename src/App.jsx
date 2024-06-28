@@ -1,4 +1,3 @@
-import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react'
 import axios from 'axios';
@@ -43,7 +42,7 @@ let tables = modelRefs.map((el,i) => {
 const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Navbar />}>
-        <Route index element={<Home />} />
+        <Route index element={<SelectWorkout />} />
         <Route path='/working_out' element={<ActiveWorkout />} />
         <Route path='/workout_selector' element={<SelectWorkout />} />
         {/* add new tables with route filters as props here */}

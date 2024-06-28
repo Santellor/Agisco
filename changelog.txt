@@ -144,6 +144,12 @@ day 14
     goal vs data comparison
 !! refresh with active workout should preserve workout state
 
+day 15 
+
+!! disable deletion when applicable
+!! disable editing when applicable
+
+!! dispatch all changes to maintain changes on reload ??
 
 
     

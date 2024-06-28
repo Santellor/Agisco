@@ -10,7 +10,11 @@ const ActiveWorkout = () => {
   const [workouts, setWorkouts] = useState([])
   const [workoutIndexArray, setWorkoutIndexArray] = useState([])
   const [options, setOptions] = useState([])
+  const [viewSearch, setViewSearch] = useState(false)
+  const [workoutOutlet, setWorkoutOutlet] = useState([])
+  const [searchButton, setSearchButton] = useState('edit this workout')
   const workoutId = useSelector((state) => state.workoutId)
+  const stateWorkoutName = useSelector((state) => state.workoutName)
   const userId = useSelector((state) => state.userId)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -67,26 +71,66 @@ const swolPatrol = async () => {
     getWorkouts()
 },[])
 
+const toggleSearch = () => {
+  setViewSearch(!viewSearch)
+if (searchButton === 'edit this workout') setSearchButton(`done editing`)
+else setSearchButton('edit this workout')
+}
+
 useEffect(() => {
   console.log(`workoutId`, workoutId)
   console.log(`workout`, workout)
   console.log(`workoutIndexArray`, workoutIndexArray)
   let workoutIndex = workouts.indexOf(workout)
-  let finalWorkoutId = workoutIndexArray[workoutIndex]
+  let finalWorkoutId = workoutIndexArray[workoutIndex] ?? 1
   console.log(finalWorkoutId)
   dispatch({type:"UPDATE_RECORD_DEFAULTS", target:"workoutId", payload:finalWorkoutId})
-}, [workout])
+  dispatch({type:"UPDATE_RECORD_DEFAULTS", target:"workoutName", payload:workout})
+
+  const loadRawSteps = async () => {
+    const rawStepQueryString = `column=workoutId&value=${finalWorkoutId}&order=relativePosition`
+    const {data} = await axios.get(`/api/load/workout_steps/${rawStepQueryString}`)
+    let rawSteps = data
+    rawSteps = rawSteps.map((el, i) => {
+      return el = <li key={i}>{i+1}- {el.exercise.exerciseName} for {el.sets} sets </li>
+    })
+    console.log(data)
+
+    setWorkoutOutlet(
+                    <div className='text-2xl vh text-primary dark bg-neutral h-[80vh]' >
+                        <h1 className='text-4xl py-5'>{workout}</h1>
+                        <ol className=' text-lg text-primary dark'>
+                          {rawSteps}
+                        </ol>
+                    </div> )
+  }
+  viewSearch? 
+    setWorkoutOutlet(
+    <div  className='bg-neutral h-[80vh]'>
+      <Table routeModelRef='workout_steps' searchColumnDefault='workout' searchValueDefault={workout} defaultLength='6' viewController={true} filter={{order:'relativePosition'}}/> 
+    </div>) :
+  loadRawSteps()
+  
+  
+
+}, [workout, viewSearch])
   
 
   return (
-    <>
-     <select  onChange={(e) => setWorkout(e.target.value)}>
-      {options}
-      </select>
-      <button onClick={(e) => swolPatrol(e.target.value)}>Start this Workout</button>
-
-      <Table routeModelRef='workout_steps' searchColumnDefault={`workoutName`} searchValueDefault={workout}/>
-    </>
+  <>
+    <div className='justify-center w-[100vw]'>
+      <div className=' bg-primary-dark'>
+        <select className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' onChange={(e) => setWorkout(e.target.value)}>
+        {options}
+        </select>
+        <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(e) => swolPatrol(e.target.value)}>start this workout</button>
+        <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={toggleSearch}>{searchButton}</button>
+      </div>
+      <div >
+        {workoutOutlet}
+      </div>
+    </div>
+  </>
   )
 }
 

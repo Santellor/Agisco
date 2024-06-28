@@ -140,16 +140,16 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
 
 
   return (
-  <>
-    <select value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
+  <div className='content-center bg-primary-dark text-highlight'>
+    <select className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
       {options}
     </select> 
-     <input type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     
-    <button onClick={() => addRecord(newRecord)}>add new</button>
-    <button onClick={() => changeFilterOffset(1)}>next</button>
-    <button onClick={() => changeFilterOffset(-1)}>back</button>
+     <input className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     
+    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => addRecord(newRecord)}>add new</button>
+    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(1)}>next</button>
+    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(-1)}>back</button>
   
-  </>
+  </div>
   )
 }
 

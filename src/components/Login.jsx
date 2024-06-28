@@ -46,33 +46,36 @@ const Login = ({ loggedOut }) => {
   
   
   
-  return showRegister ? (
-    <Register setShowRegister={setShowRegister} />
-  ) : (
-    <>
-        <h1>Welcome to Agisco</h1>
-          <button onClick={() => setShowRegister(true)}>Create Account</button>
-        <h4>
+  return showRegister ? 
+    
+        <Register setShowRegister={setShowRegister} />
+   : (
+  <div className='flex items-center h-[100vh] w-[100vw]'>
+    <div className='flex flex-col items-center h-[100vh] w-[60vw] bg-primary-dark text-primary-light'>
+      <h1 className='text-6xl p-20 align-middle text-highlight' >Welcome to Agisco</h1>
+        <h4 className='text-4xl px-20 text-center'>
         {message}
         </h4>
-      {!userId &&
-        <form>
-          <input 
+    </div>
+    <div className='flex flex-col items-center h-[100vh] w-[40vw] bg-primary-light text-primary-dark'>
+       <button className=' text-3xl text-primary dark mt-20 mb-2 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={() => setShowRegister(true)}>Create Account</button>
+        <form className='flex flex-col items-center bg-primary-light text-primary-dark'>
+          <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
             type='text' 
             value={email} 
-            placeholder='email' 
+            placeholder=' email...' 
             onChange={(e) => setEmail(e.target.value)}
             />
-          <input 
+          <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
             type='password'
             value={password}
-            placeholder='Password'
+            placeholder=' password...'
             onChange={(e) => setPassword(e.target.value)}
             />
-          <button onClick={handleLogin}> Login </button>
+          <button className=' text-3xl text-primary dark mt-2 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={handleLogin}> Log in </button>
         </form>
-    }
-    </>
+    </div>
+    </div>
   )
 }
 

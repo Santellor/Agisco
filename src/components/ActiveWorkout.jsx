@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Table from './Table'
 import { useNavigate } from 'react-router-dom'
+import Exercise from './Exercise'
+import placeholder from '../assets/chart_placeholder.png'
 
 
 const ActiveWorkout = () => {
@@ -10,40 +12,40 @@ const workingOut = useSelector((state) => state.workingOut)
 const workoutId = useSelector((state) => state.workoutId)
 const userId = useSelector((state) => state.userId)
 const workoutStepId = useSelector((state) => state.workoutStepId)
+const stateWorkoutName = useSelector((state) => state.workoutName)
 const exerciseId = useSelector((state) => state.exerciseId)
 const instanceId = useSelector((state) => state.instanceId)
 const [step, setStep ] = useState({relativePosition:1})
+const [stepIndex, setStepIndex ] = useState(0)
 const [stepStack, setStepStack] = useState([])
 const [stepDataStack, setStepDataStack] = useState([])
 const [exercise, setExercise ] = useState({muscleGroup: {groupName:''}, exerciseType: {typeName:''}})
 const [goal, setGoal ] = useState({exercise: {exerciseName:''}})
-const [sets, setSets] = useState(0)
+const [completed, setCompleted] = useState(false)
+const [endReport, setEndReport] = useState([])
+const [availableButtons, setAvailableButtons] = useState([])
 const [datumId, setDatumId] = useState(null)
 const dispatch = useDispatch()
 const navigate = useNavigate()
 
 const loadStepStack = async () => {
 
-    console.log(`instanceId`, instanceId)
-    console.log(`exerciseId`, exerciseId)
-    console.log(`userId`, userId)
-    console.log(`workoutId`, workoutId)
+    // console.log(`instanceId`, instanceId)
+    // console.log(`exerciseId`, exerciseId)
+    // console.log(`userId`, userId)
+    // console.log(`workoutId`, workoutId)
 
-    
     let {data} = await axios.get(`/api/get_workout_steps/${workoutId}`)
-    let initialStepStack = data.reverse()
+    let initialStepStack = data
     let instanceStepArray = []
-    let instanceStepDataArray = []
     for (let step of initialStepStack) {
     
         // console.log(`WE MADE IT THIS FAR BABY`, initialStepStack)
         
         // console.log(`initialStepStack`, initialStepStack)
         let currentStep = step
-        console.log(`WE MADE IT FARTHER BABY`, currentStep)
-        let currentSets = currentStep.sets
-        setSets(currentSets)
-        
+        // console.log(`WE MADE IT FARTHER BABY`, currentStep)
+             
         let currentExerciseId = currentStep.exerciseId
         
         // console.log(`currentExerciseId`, currentExerciseId)
@@ -52,48 +54,40 @@ const loadStepStack = async () => {
         let exerciseById = await axios.get(`/api/load/exercises/${exerciseQueryString}`)
         // console.log(`AHHHHH`, exerciseById.data)
         let currentExercise = exerciseById.data[0]
-        setExercise(currentExercise)
+        
        
         // console.log(`WE MADE IT EVEN FURTHERER BABY`, goalsByExercise)
     
         let goalQueryString = `column=exerciseId&value=${currentExerciseId}`
         let goalsByExercise = await axios.get(`/api/load/goals/${goalQueryString}`)
         goalsByExercise = goalsByExercise.data
-        console.log(`WE MADE IT EVEN FURTHERER BABY`, goalsByExercise)
+        // console.log(`WE MADE IT EVEN FURTHERER BABY`, goalsByExercise)
     
         let currentGoal = {}
         goalsByExercise.forEach((el) => {
             if (el.userId === userId) currentGoal = el
         })
         // console.log(`ARE WE DOING IT?`, currentGoal )
-        setGoal(currentGoal)
-        // console.log(`I can do this`, currentGoal.exercise.exerciseName)
-        dispatch({type: "UPDATE_RECORD_DEFAULTS", target: 'workoutStepId', payload: currentStep.workoutStepId})
         
-        if (instanceStepDataArray.length < initialStepStack.length) {
+        // console.log(`I can do this`, currentGoal.exercise.exerciseName)
+        
+        
+        if (instanceStepArray.length < initialStepStack.length) {
             instanceStepArray.push({exercise: currentExercise, goal: currentGoal, step: currentStep})
         }
     }
-
-    if (instanceStepDataArray.length < initialStepStack.length) {
-        for (let stepObject of instanceStepArray) {
-            let entry = {
-                instanceId: instanceId,
-                workoutStepId: stepObject.step.workoutStepId,
-                time: stepObject.goal.time ?? 10,
-                weight: stepObject.goal.weight, 
-                reps: stepObject.goal.reps,
-                sets: stepObject.goal.sets ?? 3,
-            }
-            let body = {}
-            body.entry = entry
-                const {data} = await axios.post('/api/add/workout_step_data', body)
-                console.log(data)
-                instanceStepDataArray.push(data)
-        }
-    }
-    setStepDataStack(instanceStepDataArray)
+    
     setStepStack(instanceStepArray)
+    
+    let stepAndFriends = instanceStepArray[0]
+
+
+    setStepIndex(0)
+    setStep(stepAndFriends.step)
+    setExercise(stepAndFriends.exercise)
+    setGoal(stepAndFriends.goal)
+    dispatch({type: "UPDATE_RECORD_DEFAULTS", target: 'workoutStepId', payload: stepAndFriends.step.workoutStepId})  
+
 }
 
 const quit = () => {
@@ -102,35 +96,160 @@ const quit = () => {
     
 }
 
-let currentDataRecord = datumId !== null ?  < Table routeModelRef='workout_step_data' filter={{ column:'datumId', value:datumId}} viewController={false} /> : 'loading'
+const createData = async ( newStepIndex ) => {
+
+    (console.log(`stepDataStack`, stepDataStack))
+    let i = newStepIndex 
+
+    if (stepDataStack[i] === undefined) {
+        let stepObject = stepStack[i]
+        let instanceStepDataArray = [...stepDataStack]
+            let entry = {
+                instanceId: instanceId,
+                workoutStepId: stepObject.step.workoutStepId,
+                time: stepObject.goal.time ?? 10,
+                weight: stepObject.goal.weight, 
+                reps: stepObject.goal.reps,
+                sets: stepObject.goal.sets ?? 3,
+            }
+        let body = {}
+        body.entry = entry
+        const {data} = await axios.post('/api/add/workout_step_data', body)
+        console.log(data)
+        instanceStepDataArray.push(data.datumId)
+        setStepDataStack(instanceStepDataArray)
+        let stepDatum = instanceStepDataArray[i]
+        setDatumId(stepDatum)
+        console.log(`stepDataStack`, stepDataStack)
+
+    }     
+
+        
+}
+
+const calculateEndReport = () => {
+    const exerciseNames = []
+    const theEndReport = []
+    for ( let step of stepStack) {
+        exerciseNames.push(step.exercise.exerciseName)
+    }
+    for ( let i = 0; i < exerciseNames.length; i++) {
+       theEndReport.push(
+        <div key={i}>
+
+            <div className='px-[5vw] py-[2vh]' > 
+            #{i+1} - {exerciseNames[i]} 
+            </div>
+            <div className='text-xl'>
+            < Table routeModelRef='workout_step_data' filter={{ column:'datumId', value:stepDataStack[i]}} viewController={false} defaultLength={7} defaultEditing={true}/>
+            </div>
+        </div>
+       )
+    }
+    setEndReport(theEndReport)
+}
+
+
+let currentDataRecord = datumId !== null &&  stepDataStack[stepIndex] !== undefined?  
+    < Table routeModelRef='workout_step_data' filter={{ column:'datumId', value:datumId}} viewController={false} defaultEditing={true}/> : 
+    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(() => createData(stepIndex))}>record performance</button>
+// let currentDataRecord = 'loading'
 
 useEffect(() => {
     loadStepStack()
 }, [])
 
-const next = () => {
+const shiftStep = (currentStepIndex) => {
 
-    console.log(`stepDataStack`, stepDataStack)
-    console.log(`stepStack`, stepStack)
+    {console.log(`EYY stepDataStack`, stepDataStack)
+        console.log(`EYY stepStack`, stepStack)
+
+        let stepAndFriends = stepStack[currentStepIndex]
+        let stepDatum = stepDataStack[currentStepIndex]
+
+        console.log(`EYY stepAndFriends`, stepAndFriends)
+        console.log(`EYY stepDatum`, stepDatum)
+        setDatumId(stepDatum)
+        setStep(stepAndFriends.step)
+        setExercise(stepAndFriends.exercise)
+        setGoal(stepAndFriends.goal)
+        dispatch({type: "UPDATE_RECORD_DEFAULTS", target: 'workoutStepId', payload: stepAndFriends.step.workoutStepId})   }
     
 }
 
-    return (
-    <>
-    <p> Exercise #{step.relativePosition} - {exercise.exerciseName} Sets: {step.sets} </p>
 
-    <p> img = {exercise.chart} </p>
+const next = () => {
+console.log(`EYY stepIndex`, stepIndex)
+    if (stepIndex < stepStack.length) {
+        let newStepIndex = stepIndex + 1
+        setStepIndex(newStepIndex)
+        if (newStepIndex === stepStack.length) {
+            calculateEndReport()
+            setCompleted(true)
+        } else {
+        shiftStep(newStepIndex)
+        }
+    }
+}
 
-    <p> vid = {exercise.videoLink}</p>
-    <p> muscle group: {exercise.muscleGroup.groupName} exercise type: {exercise.exerciseType.typeName}</p>
+const back = () => {
+console.log(`YO stepIndex`, stepIndex)
+    if (stepIndex >= 1) {
+        let newStepIndex = stepIndex - 1
+        setStepIndex(newStepIndex)
+        shiftStep(newStepIndex)
 
-    <p> weight = {goal.weight}  reps = {goal.reps}  total sets = {goal.sets}  time = {goal.time} mins </p>
+    }
+}
 
-    <button onClick={(quit)}>quit</button>
-    <button onClick={(next)}>next</button>
+useEffect(() => {
+    console.log(`you're fired`)
+    const buttons = () => {
+        let buttonArray = []
+        if (stepIndex !== 0 )
+            buttonArray.push(<button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' key='0' onClick={(back)}>back</button>)
+        if (stepDataStack[stepIndex] !== undefined)
+            buttonArray.push(<button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' key='1' onClick={(next)}>next</button>)
+        setAvailableButtons(buttonArray)
+    }
+    console.log(`step`, step)
+    buttons()
+}, [stepDataStack, stepIndex])
+
+    
+
+    return completed ? (
+    <div className='px-[5vw] h-[90vh]'>
+        <div className='bg-primary-light px-[5vw] pb-5 justify-center'>
+            <h1 className='text-4xl text-primary dark pt-5'>well done, you finished {stateWorkoutName}!</h1>
+        </div>
+        
+      
+    <div className='px-[5vw] text-left text-3xl'>
+      {endReport}
+    </div>
+      <button className=' text-lg text-primary dark my-8 mx-1 py-3 px-14 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(quit)}>finish</button>
+    </div>
+  ) : (
+    <div className='justify-center py-2 w-[100vw] h-[90vh] text-lg text-primary dark'>
+    
+    <h1 className='text-4xl text-primary dark'> {stateWorkoutName} </h1>
+    <h2 className='text-4xl text-primary dark'> Exercise #{step.relativePosition} - {exercise.exerciseName} for {step.sets} sets </h2>
+    <p> GOALS: weight = {goal.weight ?? `not set`} lbs  reps = {goal.reps ?? `not set`}  total sets = {goal.sets ?? `not set`}  time = {goal.time ?? `not set`} mins </p>
+    <div className='w-[100vw] flex justify-center'>
+        <img src={placeholder} alt="a silly dumbbell I drew in ms paint" />
+    </div>
+
+    
+    <p>{exercise.exerciseType.typeName} for {exercise.muscleGroup.groupName} </p>
+
+
+    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(quit)}>quit</button>
+    {availableButtons}
 
     {currentDataRecord}
-    </>
+    </div>
+
   )
 }
 

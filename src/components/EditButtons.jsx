@@ -4,23 +4,23 @@ import React from 'react'
 const EditButtons = ({ editRecord, editing, toggleEdit, removeRecord, deleting, toggleDelete}) => {
   if (editing) {
     return (
-        <td>
-            <button onClick={editRecord}>Save</button>
-        </td>
+        <div className='flex justify-center'>
+            <button className=' text-lg text-primary dark my-1 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={editRecord}>save</button>
+        </div>
     )
 } else if (deleting) {
     return (
-        <td>
-            <button onClick={removeRecord}>Confirm Delete</button>
-            <button onClick={toggleDelete}>Back</button>
-        </td>          
+        <div className='flex justify-center'>
+            <button className=' text-lg text-primary dark my-1 mx-1 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={removeRecord}>confirm delete</button>
+            <button className=' text-lg text-primary dark my-1 mr-1 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={toggleDelete}>back</button>
+        </div>          
     )
 } else {
     return (
-        <td>
-            <button onClick={toggleDelete}>Delete</button>
-            <button onClick={toggleEdit}>Edit</button>
-        </td>          
+        <div className='flex justify-center'>
+            <button className=' text-lg text-primary dark my-1 mx-1 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={toggleDelete}>delete</button>
+            <button className=' text-lg text-primary dark my-1 mr-1 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={toggleEdit}>edit</button>
+        </div>           
     )
 }
 }

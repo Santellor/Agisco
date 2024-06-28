@@ -189,6 +189,14 @@ const handlerFunctions = {
         // destructure data from front end request
         const { email, password1, password2 } = req.body
 
+        if ( email === "" || password1 === "" || password2 === "" ) {
+            res.send({
+                message: `please fill out all required fields`,
+                success: false
+            })
+            return 
+        }
+
         // if username exists, fail request
         if (await User.findOne({ where: { email : email } })) {
             res.send({

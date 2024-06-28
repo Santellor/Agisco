@@ -19,8 +19,9 @@ const Field = ({data, editing, setter, eagerField, unique }) => {
           const res = await axios.get(`/api/field_dropdown/${eagerField}`)
     
           const selectOptions = res.data.map((el, i) => {
-          return <option key={i} value={el[0]}>{el[1]}</option>
+          return <option key={i+1} value={el[0]}>{el[1]}</option>
           })
+          selectOptions.unshift(<option key={0} >pick a new value</option>)
           setOptions(selectOptions)
         }
         loadDropdownOptions()
@@ -63,7 +64,7 @@ const preserveTypeIntegrity = (userInput) => {
 }
 
   return setter && editing && eagerField !== undefined? (
-    <select onChange={(e) => preserveTypeIntegrity(e.target.value)}>
+    <select className='max-w-24' onChange={(e) => preserveTypeIntegrity(e.target.value)}>
       {options}
     </select>
 
@@ -72,7 +73,7 @@ const preserveTypeIntegrity = (userInput) => {
   ) : setter && editing && type === 'boolean' && checked === false ? (
     <p onClick={(e) => preserveTypeIntegrity(e.target.value)}>false</p>
   ) : setter && editing? (
-    <input type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
+    <input className='max-w-24' type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
   ) : (
     <>
       {String(data)}

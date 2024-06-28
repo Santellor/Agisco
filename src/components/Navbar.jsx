@@ -1,29 +1,38 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { NavLink, Outlet, useNavigate, useSearchParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import axios from 'axios'
-let modelRefs = [
-    `users`, 
-    `preferences`,
-    `workouts`,
-    `workout_instances`,
-    `workout_step_data`,
-    `workout_steps`,
-    `goals`,
-    `exercises`,
-    `muscle_groups`,
-    `exercise_types`
-  ]
-
-let tableLinks = modelRefs.map((el,i = i + 4) => {
-    return <NavLink to={el} key={i}>|{el}|</NavLink>
-})
 
 
 const Navbar = () => {
-
+    const userId = useSelector((state) => state.userId);
     const dispatch = useDispatch()
     const navigate = useNavigate();
+
+    let modelRefs 
+    userId === 7? modelRefs = [
+        `users`, 
+        `preferences`,
+        `workouts`,
+        `workout_instances`,
+        `workout_step_data`,
+        `workout_steps`,
+        `goals`,
+        `exercises`,
+        `muscle_groups`,
+        `exercise_types`
+      ] : modelRefs = [
+        `workouts`,
+        `goals`,
+        `exercises`,
+      ]
+
+    
+    let tableLinks = modelRefs.map((el,i = i + 4) => {
+        return <NavLink className='px-5 hover:text-highlight' to={el} key={i}>{el}</NavLink>
+    })
+
+    
     const handleLogout = async () => {
         const {data} = await axios.get("/api/logout")
 
@@ -36,20 +45,28 @@ const Navbar = () => {
     }    
 
   return (
-    <div>
-        <header>
-            <nav>
-                <h1>Agisco</h1>
-                <span onClick={handleLogout}> |log out|</span>
-                <NavLink to='workout_selector' key='0'>|find a workout|</NavLink>
-                <NavLink to='working_out' key='1'>|working_out|</NavLink>
-                {tableLinks}
+  <>
+            <nav className='inline-flex justify-between h-[9vh] bg-primary-dark text-primary-light'>
+                <div className='content-center'>
+                  <h1 className='w-[10vw] pl-8 text-highlight text-4xl'>agisco</h1>
+                </div>
+                <div className='w-[90vw] text-right content-center text-2xl'>
+                  <NavLink className='py-2 px-5 hover:text-highlight' to='workout_selector' key='0'>start</NavLink>
+                  {tableLinks}
+                  <span className=' pl-2 pr-8 px-5 hover:text-highlight cursor-pointer' onClick={handleLogout}> log out</span>
+                </div>
             </nav>
-        </header>
-        <main>
+                <div className='h-1 bg-primary-dark'>
+                </div>
+                <div className='h-1 bg-highlight'>
+                </div>
+    
+        <main >
+          <div className='flex text-center justify-center bg-neutral h-100'>
             <Outlet/>
+          </div>
         </main>
-    </div>
+  </>
   )
 }
 
