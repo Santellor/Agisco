@@ -29,7 +29,7 @@ await db.sync({ force: true});
 console.log(`Seeding db`);
 
 await Promise.all(users.map( async (user) => {
-        // destructure keys from user and preferences
+        // destructure keys from user 
         const {email, password } = user;
 
         //create a record using the values provided 
