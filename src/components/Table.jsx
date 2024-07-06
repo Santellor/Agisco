@@ -88,7 +88,7 @@ const loadTable = async () => {
     let fieldKeysArray = []
 
   let recordObjectCopy = record
-  // console.log(record)
+  // console.log(`record`, record)
 
   for (let key in recordObjectCopy) {
     if (recordObjectCopy[key] === undefined)
@@ -218,19 +218,47 @@ useEffect(() => {
 
 },[searchColumn, searchValue, searchOffset, tableData])
 
-const tableHead = displayFieldKeys.map((element, index) => 
-     <div key={index} className='border-t-2 border-highlight bg-primary-dark text-primary-light text-center text-xl'>
+let tableHead = [
+  <div key={0} className='border-t-2 row-start-1 bg-neutral'>
+     </div>,
+    <div className={`rounded-l-xl row-start-1 pl-2 py-3 mb-2  border-b-4  border-highlight bg-primary-dark`}>
+                    </div>
+]
+
+let borderRef = {
+  false: 'border-r-[2px]',
+  true: ''
+}
+
+tableHead = [...tableHead, displayFieldKeys.slice(1).map((element, index) => {
+    let isLast = false
+    if (index === displayFieldKeys.length-2) isLast = true
+
+     return <div key={index+1} className={`border-b-4 ${borderRef[isLast]} px-2 py-3 mb-2  row-start-1 border-highlight bg-primary-dark text-primary-light text-center text-xl`}>
           {element}
      </div>
+})]
+
+tableHead.push(
+  <div className={`rounded-r-xl row-start-1 pl-2 py-3 mb-2 border-b-4 border-highlight bg-primary-dark`}>
+                    </div>
 )
 
+// tableHead.push(
+//   <div key={0} className='problem child border-t-2 row-end-1 bg-neutral'>
+//      </div>
+// )
+console.log(`filteredTableData`, filteredTableData)
+
+let j = 0
 const tableBody = filteredTableData.map((element, index) => {
    if (element !== null) {
+    j++
     return element =
     < Record
     recordObject={element}
     modelRef={modelRef}
-    parentIndex={index + 1}
+    parentIndex={j}
     edit={editRecord}
     defaultEditing={defaultEditing}
     remove={removeRecord}
@@ -240,24 +268,11 @@ const tableBody = filteredTableData.map((element, index) => {
   }
 })
 
-const tailwindGridCutoff = () => { 
-  if (routeModelRef === `workouts`) return `grid-cols-4` 
-  if (routeModelRef === 'exercises') return `grid-cols-8 `
-  if (routeModelRef === 'goals') return `grid-cols-8` 
-  if (routeModelRef === `users`) return `grid-cols-4 `
-  if (routeModelRef === `preferences`) return `grid-cols-5 `
-  if (routeModelRef === `workout_instances`) return `grid-cols-4`
-  if (routeModelRef === `workout_step_data`) return `grid-cols-7`
-  if (routeModelRef === `workout_steps`) return `grid-cols-6`
-  if (routeModelRef === `exercise_types`) return `grid-cols-4`
-  if (routeModelRef === `muscle_groups`) return `grid-cols-4`
-}
-
-console.log(`yo please`,tailwindGridCutoff())
+  let controllerWidth = 'w-[100vw]'
+  if (viewController === false) controllerWidth = ''
 
   return (
-  <div className='flex flex-col w-[100vw]'>
-    <div>
+  <div className={`flex flex-col justify-center ${controllerWidth}`}>
        < TableController 
           modelRef={routeModelRef} 
           searchColumn={searchColumn}
@@ -269,13 +284,10 @@ console.log(`yo please`,tailwindGridCutoff())
           displayFieldKeys={displayFieldKeys}
           viewController={viewController}
           addRecord={addRecord}/>
-      </div>
-    <div className={`bg-neutral pt-[2vh] px-[5vw]`} >
-      <div className={` text-md grid grid-flow-row ${tailwindGridCutoff()} grid-rows-20 auto-cols-auto gap-y-2 bg-secondary-light`}>
-          {tableHead}
-          {tableBody}
-      </div>
-    </div>
+        <div className={`justify-center w-auto text-md grid grid-rows-20 auto-cols-min auto-rows-max pt-5 bg-neutral`}>
+            {tableHead}
+            {tableBody}
+        </div>
   </div>
   )
 }

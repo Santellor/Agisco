@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import Table from './Table'
 import { useNavigate } from 'react-router-dom'
+import { IoPencil } from "react-icons/io5";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 
 const ActiveWorkout = () => {
 
@@ -12,7 +14,7 @@ const ActiveWorkout = () => {
   const [options, setOptions] = useState([])
   const [viewSearch, setViewSearch] = useState(false)
   const [workoutOutlet, setWorkoutOutlet] = useState([])
-  const [searchButton, setSearchButton] = useState('edit this workout')
+  const [searchButton, setSearchButton] = useState(< IoPencil />)
   const workoutId = useSelector((state) => state.workoutId)
   const stateWorkoutName = useSelector((state) => state.workoutName)
   const userId = useSelector((state) => state.userId)
@@ -73,8 +75,8 @@ const swolPatrol = async () => {
 
 const toggleSearch = () => {
   setViewSearch(!viewSearch)
-if (searchButton === 'edit this workout') setSearchButton(`done editing`)
-else setSearchButton('edit this workout')
+if (!viewSearch) setSearchButton(< IoIosCheckmarkCircle />)
+else setSearchButton(< IoPencil />)
 }
 
 useEffect(() => {
@@ -106,7 +108,7 @@ useEffect(() => {
   }
   viewSearch? 
     setWorkoutOutlet(
-    <div  className='bg-neutral h-[80vh]'>
+    <div  className='bg-neutral'>
       <Table routeModelRef='workout_steps' searchColumnDefault='workout' searchValueDefault={workout} defaultLength='6' viewController={true} filter={{order:'relativePosition'}}/> 
     </div>) :
   loadRawSteps()
@@ -118,15 +120,15 @@ useEffect(() => {
 
   return (
   <>
-    <div className='justify-center w-[100vw]'>
-      <div className=' bg-primary-dark'>
+    <div className=''>
+      <div className='  flex flex-row bg-primary-dark justify-center w-[100vw]'>
         <select className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' onChange={(e) => setWorkout(e.target.value)}>
         {options}
         </select>
-        <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(e) => swolPatrol(e.target.value)}>start this workout</button>
-        <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={toggleSearch}>{searchButton}</button>
+        <button className=' text-lg text-primary dark my-2 mx-1 py-1 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(e) => swolPatrol(e.target.value)}>start this workout</button>
+        <button className=' text-xl text-primary dark my-2 mx-1 py-1 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={toggleSearch}>{searchButton}</button>
       </div>
-      <div >
+      <div className='h-[200vh]'>
         {workoutOutlet}
       </div>
     </div>

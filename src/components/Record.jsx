@@ -140,26 +140,83 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, cutoffIndex}
         
 // create an index to match up to 99 keys per record, using the parent record index to differentiate field keys
 let i = parentIndex * 100
+console.log(`parentIndex`, parentIndex)
+
+let rowPosition = +parentIndex + 1 
+
+let gridStart
+    switch (rowPosition) {
+        case 20 : gridStart = 'row-start-20'
+                break
+        case 19 : gridStart = 'row-start-19'
+                break
+        case 18 : gridStart = 'row-start-18'
+                break
+        case 17 : gridStart = 'row-start-17'
+                break
+        case 16 : gridStart = 'row-start-16'
+                break
+        case 15 : gridStart = 'row-start-15'
+                break
+        case 14 : gridStart = 'row-start-14'
+                break
+        case 13 : gridStart = 'row-start-13'
+                break
+        case 12 : gridStart = 'row-start-12'
+                break
+        case 11 : gridStart = 'row-start-11'
+                break
+        case 10 : gridStart = 'row-start-10'
+                break
+        case 9 : gridStart = 'row-start-9'
+                break
+        case 8 : gridStart = 'row-start-8'
+                break
+        case 7 : gridStart = 'row-start-7'
+                break
+        case 6 : gridStart = 'row-start-6'
+                break
+        case 5 : gridStart = 'row-start-5'
+                break
+        case 4 : gridStart = 'row-start-4'
+                break
+        case 3 : gridStart = 'row-start-3'
+                break
+        default : gridStart = 'row-start-2'
+                break
+    }
 
 //create our record, beginning with a component for buttons
 
 let dynamicRecord = [ <EditButtons 
                         key={i}
+                        gridStart={gridStart}
                         editRecord={editRecord}
                         editing={editing}
                         toggleEdit={() => toggleEdit()}
                         removeRecord={removeRecord}
                         deleting={deleting} 
                         toggleDelete={() => toggleDelete()} 
-                    />]
+                    />,
+                    <div className={`border-b-gray-400 border-b-2 rounded-l-xl ${gridStart} pl-2 my-1 bg-secondary-light`}>
+                    </div>
+                  ]
 i++
+
+let BorderRef = {
+  false: 'border-r-[2px]',
+  true: ''
+}
 
 //loop through values. for each CRUD value, we must send a state value and then a setter 
 for (let fieldValue of displayFieldValues) {
+
+    let isLast = false
+    if (i-parentIndex*100-1 === displayFieldValues.length-1) isLast = true
     
     if ( crudArrayRef.includes(i-parentIndex*100-1) && eagerFieldArray.length > 0 ) {
       dynamicRecord.push (
-        <div key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
+        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field  
             editing={editing}
             data={fieldValue} 
@@ -170,7 +227,7 @@ for (let fieldValue of displayFieldValues) {
       valuePropStack.pop()
     } else if (crudArrayRef.includes(i-parentIndex*100-1) && uniqueFieldArray.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (
-        <div key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
+        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field  
             editing={editing}
             data={valuePropStack.pop()} 
@@ -180,7 +237,7 @@ for (let fieldValue of displayFieldValues) {
       )
     } else if (crudArrayRef.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (
-        <div key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
+        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field  
             editing={editing}
             data={valuePropStack.pop()} 
@@ -190,7 +247,7 @@ for (let fieldValue of displayFieldValues) {
     }
     else {
       dynamicRecord.push (
-        <div  key={i} className=' border-l-2 content-center border-highlight text-center px-2'>
+        <div  key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field
             editing={editing} 
             data={fieldValue}/>
@@ -199,12 +256,15 @@ for (let fieldValue of displayFieldValues) {
       eagerFieldArray.pop()
     }
     i++
-  // }
+  
 }
 
+dynamicRecord.push(
+  <div className={`border-b-gray-400 border-b-2  rounded-r-xl ${gridStart} my-1 bg-secondary-light`}>
+                  </div>
+)
 return (
     <>
-    
     {dynamicRecord}
     </>
     

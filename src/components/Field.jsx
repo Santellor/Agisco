@@ -1,4 +1,6 @@
 import {useState, useEffect} from 'react'
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { IoIosCloseCircle } from "react-icons/io";
 import axios from 'axios'
 
 const Field = ({data, editing, setter, eagerField, unique }) => {
@@ -11,7 +13,7 @@ const Field = ({data, editing, setter, eagerField, unique }) => {
   } 
 
     useEffect (() => {
-      if (eagerField !== undefined) {
+      if (eagerField !== undefined && editing === true ) {
 
         const loadDropdownOptions = async () => {
 
@@ -64,20 +66,28 @@ const preserveTypeIntegrity = (userInput) => {
 }
 
   return setter && editing && eagerField !== undefined? (
-    <select className='max-w-24' onChange={(e) => preserveTypeIntegrity(e.target.value)}>
+    <select className='w-min' onChange={(e) => preserveTypeIntegrity(e.target.value)}>
       {options}
     </select>
 
   ) : setter && editing && type === 'boolean' && checked === true ? (
-    <p onClick={(e) => preserveTypeIntegrity(e.target.value)}>true</p>
+    <div className='flex justify-center text-2xl' onClick={(e) => preserveTypeIntegrity(e.target.value)}>< IoIosCheckmarkCircle /></div>
   ) : setter && editing && type === 'boolean' && checked === false ? (
-    <p onClick={(e) => preserveTypeIntegrity(e.target.value)}>false</p>
+    <div className='flex justify-center text-2xl' onClick={(e) => preserveTypeIntegrity(e.target.value)}><IoIosCloseCircle /></div>
   ) : setter && editing? (
-    <input className='max-w-24' type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
+    <input className='w-auto' type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
+  ) : data === false ? (
+    <div className='flex justify-center text-2xl'>
+      <IoIosCloseCircle />
+    </div>
+  ) : data === true ? (
+    <div className='flex justify-center w-max text-2xl'>
+      < IoIosCheckmarkCircle />
+    </div>
   ) : (
-    <>
+    <div className='self-center w-max'>
       {String(data)}
-    </>
+    </div>
   )
 }
 

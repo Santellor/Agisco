@@ -2,6 +2,7 @@
 const initialState = {
   userId: null,
   workingOut: false,
+  message: null,
   workoutId: 4,
   workoutName: 'user1 workout1',
   exerciseId: 2,
@@ -46,6 +47,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         workingOut: false,
+      };
+
+    case "MESSAGE":
+      return {
+        ...state,
+        message: action.payload,
       };
 
     default:

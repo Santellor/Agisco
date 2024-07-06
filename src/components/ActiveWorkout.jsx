@@ -129,24 +129,31 @@ const createData = async ( newStepIndex ) => {
 
 const calculateEndReport = () => {
     const exerciseNames = []
-    const theEndReport = []
+    const theEndReport = [<div className='bg-neutral h-20 mb-2'></div>]
     for ( let step of stepStack) {
         exerciseNames.push(step.exercise.exerciseName)
     }
     for ( let i = 0; i < exerciseNames.length; i++) {
        theEndReport.push(
-        <div key={i}>
+        <div  key={i}>
 
-            <div className='px-[5vw] py-[2vh]' > 
+            <div className='px-2 py-1 mb-[9.778px] h-[34px] rounded self-end bg-secondary-light' > 
             #{i+1} - {exerciseNames[i]} 
-            </div>
-            <div className='text-xl'>
-            < Table routeModelRef='workout_step_data' filter={{ column:'datumId', value:stepDataStack[i]}} viewController={false} defaultLength={7} defaultEditing={true}/>
             </div>
         </div>
        )
+            
     }
-    setEndReport(theEndReport)
+    setEndReport(
+        <div className='flex flex-row '>
+            <div className=''>
+                {theEndReport}
+            </div>
+
+            <div className='text-xl'>
+            < Table routeModelRef='workout_step_data' filter={{ column:'instanceId', value:instanceId}} viewController={false} defaultLength={7} defaultEditing={true}/>
+            </div>
+        </div>)
 }
 
 
@@ -219,13 +226,13 @@ useEffect(() => {
     
 
     return completed ? (
-    <div className='px-[5vw] h-[90vh]'>
-        <div className='bg-primary-light px-[5vw] pb-5 justify-center'>
-            <h1 className='text-4xl text-primary dark pt-5'>well done, you finished {stateWorkoutName}!</h1>
+    <div className='px-[5vw]'>
+        <div className='flex flex-row bg-primary-dark px-[5vw] pb-5  mt-5 rounded-lg justify-center'>
+            <h1 className='self-center text-4xl text-highlight mt-4'>well done, you finished {stateWorkoutName}!</h1>
         </div>
         
       
-    <div className='px-[5vw] text-left text-3xl'>
+    <div className='px-[5vw] text-left text-lg'>
       {endReport}
     </div>
       <button className=' text-lg text-primary dark my-8 mx-1 py-3 px-14 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(quit)}>finish</button>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 function Register({ setShowRegister }) {
 
@@ -11,6 +12,7 @@ function Register({ setShowRegister }) {
   
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -23,13 +25,13 @@ function Register({ setShowRegister }) {
     
       if (data.success) {
           dispatch({
-            type: "USER_AUTH",
-            payload: data.userId
+            type: "MESSAGE",
+            payload: "account created - please log in"
           })
-          setShowRegister(false)
           setEmail("")
           setPassword1("")
           setPassword2("")
+          navigate("/login")
       }
 
       setMessage(data.message)

@@ -1,6 +1,12 @@
 import {useEffect, useState} from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux'
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { IoIosAddCircle } from "react-icons/io";
+
+
+
 
 const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, setSearchValue, searchOffset, setSearchOffset, displayFieldKeys, viewController, addRecord}) => {
     const userId = useSelector((state) => state.userId);
@@ -140,14 +146,14 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
 
 
   return (
-  <div className='content-center bg-primary-dark text-highlight'>
-    <select className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
+  <div className=' flex flex-row justify-center bg-primary-dark text-highlight'>
+    <select className='bg-neutral self-center text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
       {options}
     </select> 
-     <input className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     
-    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => addRecord(newRecord)}>add new</button>
-    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(1)}>next</button>
-    <button className=' text-lg text-primary dark my-1 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(-1)}>back</button>
+     <input className='bg-neutral self-center text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     
+    <button className=' self-center text-2xl text-primary dark my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => addRecord(newRecord)}><IoIosAddCircle /></button>
+    <button className=' self-center text-2xl text-primary dark my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(-1)}><IoIosArrowDropleftCircle /></button>
+    <button className=' self-center text-2xl text-primary dark my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(1)}><IoIosArrowDroprightCircle /></button>
   
   </div>
   )

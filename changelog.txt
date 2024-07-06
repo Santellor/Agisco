@@ -13,7 +13,7 @@ each feature will be rated by importance ( time - concept - value )
 
     1 - prettier tables - 6
         
-        make the buttons free-floating
+                make the buttons free-floating
         move the selector setters to the side
         add buffer rows
 
@@ -166,10 +166,10 @@ day 9 - field day
     fields are correctly loading in I may have saved a fair amount of time through eager loading
     filtering at createdAt or updatedAt, and then cutting everything afterward
         !! loading in exercise names for workoutSteps or workout names for workoutstepdata requires a nested eager load
-!! the first login of the session always fails to reload
-!! if not logged in, it needs to redirect to home on the sessionCheck
-?? move the session check to the NavBar, that way it will always be able to redirect
-?? another random idea - use activeWorkout to hide or unhide the NavBar - more room for exercises that way 
+        !! the first login of the session always fails to reload
+        !! if not logged in, it needs to redirect to home on the sessionCheck
+        ?? move the session check to the NavBar, that way it will always be able to redirect
+        ?? another random idea - use activeWorkout to hide or unhide the NavBar - more room for exercises that way 
 
 && password is too short once I have finalized the project
     I am ready to be done with tables
@@ -226,7 +226,7 @@ day 12 - I am a table stacked on top of a table
 day 13
 !! cascade deletion to avoid incongruency
 
-!! active workout endpoint is wrong
+        !! active workout endpoint is wrong
     create a new workout instance
     set workout instance default 
     for each workout step,

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import axios from 'axios'
 
-
 const Navbar = () => {
     const userId = useSelector((state) => state.userId);
+    const workingOut = useSelector((state) => state.workingOut);
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -40,13 +40,13 @@ const Navbar = () => {
             dispatch({
             type: "LOGOUT",
             })
-            navigate('/')
+            navigate('/login')
         }
     }    
 
-  return (
+  return userId && !workingOut ? (
   <>
-            <nav className='inline-flex justify-between h-[9vh] bg-primary-dark text-primary-light'>
+            <nav className='inline-flex justify-between h-12 bg-primary-dark text-primary-light'>
                 <div className='content-center'>
                   <h1 className='w-[10vw] pl-8 text-highlight text-4xl'>agisco</h1>
                 </div>
@@ -61,13 +61,8 @@ const Navbar = () => {
                 <div className='h-1 bg-highlight'>
                 </div>
     
-        <main >
-          <div className='flex text-center justify-center bg-neutral h-100'>
-            <Outlet/>
-          </div>
-        </main>
   </>
-  )
+  ) : (<></>)
 }
 
 export default Navbar
