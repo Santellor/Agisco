@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import util from 'util';
 import connectToDB from './db.js'
-import { workerData } from 'worker_threads';
 
 export const db = await connectToDB('postgresql:///agisco');
 

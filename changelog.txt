@@ -3,6 +3,75 @@ MVP 2
     Profile - Admin
     Charts
 
+new features, ordered by difficulty in estimated hours to complete 
+each feature will be rated by importance ( time - concept - value )
+
+    1 - react icons - 6
+        delete, edit, add, next, back
+
+        no required structure changes
+
+    1 - prettier tables - 6
+        
+        make the buttons free-floating
+        move the selector setters to the side
+        add buffer rows
+
+    2 - new top bar for workouts - DYNAMIC CSS? - 7
+        display the name of the workout, larger, with the remaining steps in a row
+        when the step has been completed, no longer display it
+        if the user navigates back, add the item again
+
+        no required structure changes
+
+    2 - preferences - 2
+        find user preferences, then use redux to store them and change the way images are displayed
+
+    3 - timer on workout - 10
+        display a timer in upper right corner
+            workout instance should save that total time on completion
+        use second timer to create a timestamp in minutes for goal entry
+            timer should measure how long each step was rendered with subtimers
+                workout step = 1 then activeTimer = timer1
+                correct timer should be input in the entry automatically
+        required structure changes 
+            instance needs new field: time
+            workoutstepdata, goals, instance: time needs to be DATATYPE time
+
+    5.5 - better exercises - 8
+
+        if an exercise does not require sets, weight, or reps, specify
+        many to many relationships between exercises and muscle groups, exercises and equipment
+        add new table - equipment
+        add relationships tables - exercise muscle tracking - exercise equipment tracking 
+            these do not need routes, as they are solely for the back end
+
+        call to wger api for muscle images
+        seed muscle db with these images
+        display the most relevant image in workout
+
+        required structure changes
+            muscle group changed to muscle
+            muscle group needs to store a link to be called when rendering a workout
+        
+    8 - update by record, rather than by table ? 
+        ?? place the edit and delete functions in the record, then pass the edited data as the table data?
+
+    12 - vidyas 2 for PRESENTATION, only record a few
+        record videos of self, embed them, then use them as reference in the app
+        
+        required structure changes
+            all exercise videos must instead carry a reference point to a video link
+            maybe need a new 
+
+
+!! = problem
+&& = idea
+?? = idea to solve, can't test
+if tabbed, temporarily dismissed
+    -most problems will be tabbed instead of deleting, to keep track of what errors I am seeing. 
+    --if an error is recurring in other locations, it is likely caused by a problem in parent code
+
 day 1
     min: develop database components: db, model with relationship mapping
     max: complete seed
@@ -16,7 +85,7 @@ day 2
     max: complete backend routes
 
     created the root JSON files with no discrepancies (miraculously) 
-!! eventually, the exercises may be substituted with calls to an external API 
+&& eventually, the exercises may be substituted with calls to an external API 
     
     developed template for seeding database, need to duplicate for all tables
 
@@ -27,8 +96,8 @@ day 3
     max: implement controller 
 
     completed seed and corrected any errors in my relationship mapping
-!! if you have time, check how Koa and Craig are initializing their databases
-!! jsdocs seem really useful
+&& if you have time, check how Koa and Craig are initializing their databases
+&& jsdocs seems really useful
 
     tomorrow: front end!! woot woot
 
@@ -68,8 +137,8 @@ day 7
     added a front-end router and also laid the groundwork for an active workout with redux
     login correctly redirects to and away from navbar
     tables no longer show timestamps, but are still ordered by them
-!! don't forget to add a switcher for ordering if you are viewing workout instances
-!! workout instances -> order by createdAt;   all others -> order by updatedAt
+        && don't forget to add a switcher for ordering if you are viewing workout instances
+        && workout instances -> order by createdAt;   all others -> order by updatedAt
     edit toggling and delete toggling are all correctly implemented
     dynamic state for fields is in progress. I need to use redux to tackle it. 
 
@@ -80,9 +149,9 @@ day 8
     max: full crud, mvp done
 
     record data now loads as intended for current use cases
-!! fields need to evaluate data types (string, int, date, or bool), find values to alias as, and 
-!! correctly perform indirect updates for the exercises record
-!! for that, I will need checkbox icons, and a switch case in the editable fields 
+        !! fields need to evaluate data types (string, int, date, or bool), find values to alias as, and 
+        !! correctly perform indirect updates for the exercises record
+        !! for that, I will need checkbox icons, and a switch case in the editable fields 
 
     tomorrow - have a field day. its gonna be a doozy, but at least you know where to start
 
@@ -96,11 +165,13 @@ day 9 - field day
 
     fields are correctly loading in I may have saved a fair amount of time through eager loading
     filtering at createdAt or updatedAt, and then cutting everything afterward
-!! loading in exercise names for workoutSteps or workout names for workoutstepdata requires a nested eager load
+        !! loading in exercise names for workoutSteps or workout names for workoutstepdata requires a nested eager load
 !! the first login of the session always fails to reload
 !! if not logged in, it needs to redirect to home on the sessionCheck
-    !! navigate to login
-!! password is too short once I have finalized the project
+?? move the session check to the NavBar, that way it will always be able to redirect
+?? another random idea - use activeWorkout to hide or unhide the NavBar - more room for exercises that way 
+
+&& password is too short once I have finalized the project
     I am ready to be done with tables
 
 day 10 - I will never be done with tables. I am a table
@@ -114,8 +185,38 @@ day 11 -  I am still a table
     4 remain    
         header labels are not user friendly .5
 !! I cannot edit the relative position of workout steps without messing that up 
-    ** backend route to update all workout steps with a specified ID
-    
+        ?? backend route to update all workout steps with a specified ID
+?? algorithm was made, now I need to update the EDIT and DELETE function. 
+
+?? in Table, make a function called: 
+     editRelativePositions that takes in a workoutId, starting position and ending position
+        first pull all steps with that id from the backend as just their id and relativePosition
+        calculate which is greater, and which is lesser to determine what direction to shift values
+        delete any steps with a relative position outside the bounds
+        save the greatest position value
+
+        start position = starting position, ending position = greatest position 
+        
+        then make a nested function with logic I came up with in Repl to calculate new values
+        then make editRecord calls with each step (id, entry = {relativePosition: calculated value}, false)
+        make it recursive as a challenge, but CONSOLE LOG, not DATABASE CHANGES at first
+
+    EDIT inside the editRecord function:
+        new parameter: fromField
+        if entry contains relativePosition AND fromField !== false, 
+        call editRelativePositions
+        always 
+        edit as normal
+        
+
+    DELETE inside the deleteRecord function:
+        new Parameter: currentStepPosition
+        if passed currentStepPosition
+        delete as normal
+        call editRelativePositions
+        the start position is currentStepPosition, end position INFINITY ahaha
+        
+
 day 12 - I am a table stacked on top of a table
     
     fixed more critical errors in the methods employed to display data
@@ -125,15 +226,14 @@ day 12 - I am a table stacked on top of a table
 day 13
 !! cascade deletion to avoid incongruency
 
-
-!! active workout endpoint
+!! active workout endpoint is wrong
     create a new workout instance
     set workout instance default 
     for each workout step,
         set workout step default 
         create a workout step data
 
-!! stretch goals
+!! stretch goals 
     view goals compared to data with charts 
         load goals for exercise 
             load all workout step data with exerciseId = exercise 
@@ -142,14 +242,15 @@ day 14
 
     workout step loading with creation of new workout step data
     goal vs data comparison
-!! refresh with active workout should preserve workout state
+!! refresh with active workout should preserve workout state something wonky goin on there
+!! send all changes to session on reload? 
+?? I may be able to accomplish this with session check
 
 day 15 
 
 !! disable deletion when applicable
 !! disable editing when applicable
 
-!! dispatch all changes to maintain changes on reload ??
 
 
     
