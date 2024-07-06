@@ -131,7 +131,7 @@ const removeRecord = async (model, id) => {
     
     const targetRecord = await model.findByPk(id)
 
-    return targetRecord ? await targetRecord.destroy() : console.log(`record at id:${id} does not exist`);
+    return targetRecord ? await targetRecord.destroy() : `record at id:${id} does not exist`;
 }
 
 //edit a record using a table model reference, a reference id, and an entry object
