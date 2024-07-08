@@ -1,21 +1,48 @@
-MVP 2
-    activeworkout
-    Profile - Admin
-    Charts
+
+MVP 4
+    Allow multiple rows to be updated at once
+
+    Update Seed files
+        Use admin profile to add more workouts and goals for my account, admin
+        Change seed files to reflect my current database, to allow for better seeding
+    DarkMode
+        On user creation, create a preference correlated to them
+            on sessionCheck, load their preferences into redux
+            if they click to change preference (both in navbar)
+                use the preferenceId (should be same number as userId if there is a 1-1 correlation)
+                update the stored preference 
+            in Table, change the DisplayFieldNames to update according to redux preference 
+
+    Improve Workout Execution
+        process 
+            add new top bar with Agisco, then a list of all workouts
+            add long fields - should be toggled from a prop = showLongFields
+                descriptions
+                videoLink 
+                Images
+            change muscle - muscle group
+            add timers
+
+        completion 
+            Add to TableData with Redux (workoutName can be tacked on there)
+
+    Graphs
+        PEEEEPEEEEE POOOOOPOOOOO
+
 
 new features, ordered by difficulty in estimated hours to complete 
 each feature will be rated by importance ( time - concept - value )
 
-    1 - react icons - 6
-        delete, edit, add, next, back
+                        1 - react icons - 6
+                                    delete, edit, add, next, back
 
-        no required structure changes
+                                    no required structure changes
 
-    1 - prettier tables - 6
-        
-                make the buttons free-floating
-        move the selector setters to the side
-        add buffer rows
+                        1 - prettier tables - 6
+                            
+                                    make the buttons free-floating
+                            move the selector setters to the side
+                                    add buffer rows
 
     2 - new top bar for workouts - DYNAMIC CSS? - 7
         display the name of the workout, larger, with the remaining steps in a row
@@ -24,8 +51,9 @@ each feature will be rated by importance ( time - concept - value )
 
         no required structure changes
 
-    2 - preferences - 2
+    2 - preferences - 3 
         find user preferences, then use redux to store them and change the way images are displayed
+        make dark mode - light mode palette
 
     3 - timer on workout - 10
         display a timer in upper right corner

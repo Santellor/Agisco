@@ -1,5 +1,8 @@
 import { NavLink, Outlet, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { IoIosMoon } from "react-icons/io";
+import { IoIosSunny } from "react-icons/io";
+
 
 import axios from 'axios'
 
@@ -42,13 +45,19 @@ const Navbar = () => {
             })
             navigate('/login')
         }
-    }    
+    }
+
+    const handleDark = async () => {
+      const {data} = await axios.post
+
+    }
 
   return userId && !workingOut ? (
   <>
             <nav className='inline-flex justify-between h-12 bg-primary-dark text-primary-light'>
                 <div className='content-center'>
                   <h1 className='w-[10vw] pl-8 text-highlight text-4xl'>agisco</h1>
+                  <button></button>
                 </div>
                 <div className='w-[90vw] text-right content-center text-2xl'>
                   <NavLink className='py-2 px-5 hover:text-highlight' to='workout_selector' key='0'>start</NavLink>
