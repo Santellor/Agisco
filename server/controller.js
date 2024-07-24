@@ -218,9 +218,14 @@ const handlerFunctions = {
         // hash password, store that in place of vanilla password, then save the user to the DB
         const hashedPassword = bcryptjs.hashSync(password1, bcryptjs.genSaltSync())
 
-        await User.create ({
+        const user = await User.create ({
             email: email,
             password: hashedPassword
+        })
+        await Preference.create({
+            userId:user.userId,
+            darkMode: false,
+            metric: false
         })
         res.send({
             message: `user created successfully - please login with your credentials`,

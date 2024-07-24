@@ -49,21 +49,21 @@ function Register({ setShowRegister }) {
     </div>
     <div className='flex flex-col items-center h-[100vh] w-[40vw] bg-primary-light text-primary-dark'>
       <form className='flex flex-col items-center bg-primary-light text-primary-dark'>
-        <h1 className=' text-4xl text-primary dark align-middle mt-20 mb-2 py-2 px-3'>New Account</h1>
+        <h1 className=' text-4xl text-primary  dark align-middle mt-20 mb-2 py-2 px-3'>New Account</h1>
         <button className=' text-3xl text-primary dark mt-2 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={() => setShowRegister(false)}> Back </button>
-        <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
+        <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 px-2 py-10 my-2 rounded'
           type='text'
           placeholder='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
+        <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 px-2 py-10 my-2 rounded'
           type='password'
           placeholder='password1'
           value={password1}
           onChange={(e) => setPassword1(e.target.value)}
         />
-        <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
+        <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 px-2 py-10 my-2 rounded'
           type='password'
           placeholder='password2'
           value={password2}

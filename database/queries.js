@@ -86,7 +86,7 @@ const loadRecords = async (model, modelRef, filter) => {
     }
 
     if (filter.value === undefined)
-        return 'Absolutely not you fucking wanker'
+        return 'nope'
    
     //apply a default for offset and order if they are not specified
     console.log(`filter offset`, filter.offset)
@@ -140,6 +140,7 @@ const removeRecord = async (model, id) => {
 const editRecord = async (model, id, entry) => {
     
     console.log('id', id)
+    console.log('entry', entry)
 
     const targetRecord = await model.findByPk(id)
 

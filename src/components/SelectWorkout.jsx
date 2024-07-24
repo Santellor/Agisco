@@ -18,6 +18,7 @@ const ActiveWorkout = () => {
   const workoutId = useSelector((state) => state.workoutId)
   const stateWorkoutName = useSelector((state) => state.workoutName)
   const userId = useSelector((state) => state.userId)
+  const dark = useSelector((state) => state.dark)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -69,7 +70,7 @@ const swolPatrol = async () => {
 }
 
   useEffect(() => {
-    console.log(`workoutId`, workoutId)
+    // console.log(`workoutId`, workoutId)
     getWorkouts()
 },[])
 
@@ -79,13 +80,18 @@ if (!viewSearch) setSearchButton(< IoIosCheckmarkCircle />)
 else setSearchButton(< IoPencil />)
 }
 
+const handleDark = () => {
+  console.log(`dark`, dark)
+  return dark ? viewSearch ? 'dark:bg-slate-900' : 'dark:bg-slate-900 dark:text-primary-light'  :'  bg-neutral' 
+}
+
 useEffect(() => {
-  console.log(`workoutId`, workoutId)
-  console.log(`workout`, workout)
-  console.log(`workoutIndexArray`, workoutIndexArray)
+  // console.log(`workoutId`, workoutId)
+  // console.log(`workout`, workout)
+  // console.log(`workoutIndexArray`, workoutIndexArray)
   let workoutIndex = workouts.indexOf(workout)
   let finalWorkoutId = workoutIndexArray[workoutIndex] ?? 1
-  console.log(finalWorkoutId)
+  // console.log(finalWorkoutId)
   dispatch({type:"UPDATE_RECORD_DEFAULTS", target:"workoutId", payload:finalWorkoutId})
   dispatch({type:"UPDATE_RECORD_DEFAULTS", target:"workoutName", payload:workout})
 
@@ -96,10 +102,10 @@ useEffect(() => {
     rawSteps = rawSteps.map((el, i) => {
       return el = <li key={i}>{i+1}- {el.exercise.exerciseName} for {el.sets} sets </li>
     })
-    console.log(data)
+    // console.log(data)
 
     setWorkoutOutlet(
-                    <div className='text-2xl vh text-primary dark bg-neutral h-[80vh]' >
+                    <div className={` flex flex-col translate-x-[240%] translate-y-[0%] justify-center text-2xl vh text-primary dark `} >
                         <h1 className='text-4xl py-5'>{workout}</h1>
                         <ol className=' text-lg text-primary dark'>
                           {rawSteps}
@@ -108,9 +114,8 @@ useEffect(() => {
   }
   viewSearch? 
     setWorkoutOutlet(
-    <div  className='bg-neutral'>
       <Table routeModelRef='workout_steps' searchColumnDefault='workout' searchValueDefault={workout} defaultLength='6' viewController={true} filter={{order:'relativePosition'}}/> 
-    </div>) :
+  ) :
   loadRawSteps()
   
   
@@ -120,15 +125,17 @@ useEffect(() => {
 
   return (
   <>
-    <div className=''>
-      <div className='  flex flex-row bg-primary-dark justify-center w-[100vw]'>
-        <select className='bg-neutral text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' onChange={(e) => setWorkout(e.target.value)}>
+    <div className='relative min-h-[80vh]'>
+      <div className=' fixed top-[5.25rem] min-h-[88.6vh] w-[22vw] flex flex-col bg-primary-dark text-highlight'>
+        </div>
+      <div className=' fixed top-[6rem] w-[22vw] flex flex-col bg-primary-dark text-highlight z-10'>
+        <select className='bg-neutral dark:bg-slate-900 dark:text-primary-light text-lg text-primary-dark mx-1 px-2 py-3 self-center w-[18vw] my-2 rounded' onChange={(e) => setWorkout(e.target.value)}>
         {options}
         </select>
-        <button className=' text-lg text-primary dark my-2 mx-1 py-1 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(e) => swolPatrol(e.target.value)}>start this workout</button>
-        <button className=' text-xl text-primary dark my-2 mx-1 py-1 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={toggleSearch}>{searchButton}</button>
+        <button className=' text-lg self-center text-primary dark my-2 mx-1 py-1 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(e) => swolPatrol(e.target.value)}>start this workout</button>
+        <button className=' self-center text-2xl my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={toggleSearch}>{searchButton}</button>
       </div>
-      <div className='h-[200vh]'>
+      <div className={` ${handleDark()} min-h-[60vh]`}>
         {workoutOutlet}
       </div>
     </div>

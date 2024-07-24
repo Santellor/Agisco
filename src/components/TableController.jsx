@@ -55,12 +55,14 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
     loadTemplate()
   }, [modelRef])
   let recordObjectCopy = template
+  console.table(template)
 
   delete recordObjectCopy[wrongTimeRef]
   let cutoffIndex = Object.keys(recordObjectCopy).indexOf(timeRef) + 1
 
   for (let key in recordObjectCopy) {
-    if (typeof recordObjectCopy[key] === 'object') {
+    if (recordObjectCopy[key] === null) key = "n/a"
+    else if (typeof recordObjectCopy[key] === 'object') {
       let nestedKeys = Object.keys(recordObjectCopy[key])
       delete recordObjectCopy[key] 
       fieldKeysArray = [...fieldKeysArray, ...nestedKeys]
@@ -146,14 +148,16 @@ const TableController = ({modelRef, searchColumn, setSearchColumn, searchValue, 
 
 
   return (
-  <div className=' flex flex-row justify-center bg-primary-dark text-highlight'>
-    <select className='bg-neutral self-center text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
+  <div className='fixed top-[17.4rem] w-[22vw] flex flex-col bg-primary-dark text-highlight'>
+    <select className='bg-neutral dark:bg-slate-900 dark:text-primary-light self-center text-lg text-primary-dark mx-1 px-2 py-3 my-2 w-[18vw] rounded' value={column} onChange={(e) => changeFilterColumn(e.target.value)}>
       {options}
     </select> 
-     <input className='bg-neutral self-center text-lg text-primary-dark mx-1 pt-3 pb-3 py-10 my-2 rounded' type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/>     
-    <button className=' self-center text-2xl text-primary dark my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => addRecord(newRecord)}><IoIosAddCircle /></button>
-    <button className=' self-center text-2xl text-primary dark my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(-1)}><IoIosArrowDropleftCircle /></button>
-    <button className=' self-center text-2xl text-primary dark my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(1)}><IoIosArrowDroprightCircle /></button>
+    <input className='bg-neutral dark:bg-slate-900 dark:text-primary-light self-center text-lg text-primary-dark mx-1 px-2 py-3 my-2 w-[18vw] rounded' type="text" value={field} placeholder='search for a value' onChange={(e) => changeFilterValue(e.target.value)}/> 
+    <div>
+      <button className=' self-center text-2xl my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => addRecord(newRecord)}><IoIosAddCircle /></button>
+      <button className=' self-center text-2xl my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(-1)}><IoIosArrowDropleftCircle /></button>
+      <button className=' self-center text-2xl my-2 mx-1 py-3 px-3 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={() => changeFilterOffset(1)}><IoIosArrowDroprightCircle /></button>
+    </div>    
   
   </div>
   )

@@ -66,26 +66,26 @@ const preserveTypeIntegrity = (userInput) => {
 }
 
   return setter && editing && eagerField !== undefined? (
-    <select className='w-min' onChange={(e) => preserveTypeIntegrity(e.target.value)}>
+    <select className='max-w-6rem' onChange={(e) => preserveTypeIntegrity(e.target.value)}>
       {options}
     </select>
 
   ) : setter && editing && type === 'boolean' && checked === true ? (
-    <div className='flex justify-center text-2xl' onClick={(e) => preserveTypeIntegrity(e.target.value)}>< IoIosCheckmarkCircle /></div>
+    <div className='flex justify-center pt-1 text-2xl' onClick={(e) => preserveTypeIntegrity(e.target.value)}>< IoIosCheckmarkCircle /></div>
   ) : setter && editing && type === 'boolean' && checked === false ? (
-    <div className='flex justify-center text-2xl' onClick={(e) => preserveTypeIntegrity(e.target.value)}><IoIosCloseCircle /></div>
+    <div className='flex justify-center pt-1 text-2xl' onClick={(e) => preserveTypeIntegrity(e.target.value)}><IoIosCloseCircle /></div>
   ) : setter && editing? (
-    <input className='w-auto' type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
+    <input className='max-w-6rem' type="text" value={data} onChange={(e) => preserveTypeIntegrity(e.target.value)}/>
   ) : data === false ? (
-    <div className='flex justify-center text-2xl'>
+    <div className='flex content-center pt-1 self-center text-2xl'>
       <IoIosCloseCircle />
     </div>
   ) : data === true ? (
-    <div className='flex justify-center w-max text-2xl'>
+    <div className='flex content-center pt-1 self-center w-max text-2xl'>
       < IoIosCheckmarkCircle />
     </div>
   ) : (
-    <div className='self-center w-max'>
+    <div className='self-center pt-1 w-max'>
       {String(data)}
     </div>
   )

@@ -2,6 +2,8 @@
 const initialState = {
   userId: null,
   workingOut: false,
+  dark: false,
+  metric: false,
   message: null,
   workoutId: 4,
   workoutName: 'user1 workout1',
@@ -53,6 +55,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
+      };
+
+    case "DARK":
+      return {
+        ...state,
+        dark: action.payload,
+      };
+
+    case "METRIC":
+      return {
+        ...state,
+        metric: action.payload,
       };
 
     default:

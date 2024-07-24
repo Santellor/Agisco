@@ -129,7 +129,7 @@ const createData = async ( newStepIndex ) => {
 
 const calculateEndReport = () => {
     const exerciseNames = []
-    const theEndReport = [<div className='bg-neutral h-20 mb-2'></div>]
+    const theEndReport = [<div className='bg-neutral dark:bg-slate-900 h-20 mb-2'></div>]
     for ( let step of stepStack) {
         exerciseNames.push(step.exercise.exerciseName)
     }
@@ -145,15 +145,10 @@ const calculateEndReport = () => {
             
     }
     setEndReport(
-        <div className='flex flex-row '>
-            <div className=''>
-                {theEndReport}
-            </div>
-
             <div className='text-xl'>
             < Table routeModelRef='workout_step_data' filter={{ column:'instanceId', value:instanceId}} viewController={false} defaultLength={7} defaultEditing={true}/>
             </div>
-        </div>)
+        )
 }
 
 
@@ -226,16 +221,16 @@ useEffect(() => {
     
 
     return completed ? (
-    <div className='px-[5vw]'>
-        <div className='flex flex-row bg-primary-dark px-[5vw] pb-5  mt-5 rounded-lg justify-center'>
-            <h1 className='self-center text-4xl text-highlight mt-4'>well done, you finished {stateWorkoutName}!</h1>
+    <div className='flex flex-col content-center max-w-[100vw] justify-center'>
+        <div className=' bg-primary-dark pb-5 mb-5 pt-4 text-4xl text-highlight'>
+            well done, you finished {stateWorkoutName}!
         </div>
         
       
+      <button className='w-[38.5vw] self-center text-lg text-primary dark my-8 mx-1 py-3 pl-5 pr-5 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(quit)}>finish</button>
     <div className='px-[5vw] text-left text-lg'>
       {endReport}
     </div>
-      <button className=' text-lg text-primary dark my-8 mx-1 py-3 px-14 rounded bg-primary-light text-primary-dark hover:text-highlight' onClick={(quit)}>finish</button>
     </div>
   ) : (
     <div className='justify-center py-2 w-[100vw] h-[90vh] text-lg text-primary dark'>

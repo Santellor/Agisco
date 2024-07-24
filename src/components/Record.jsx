@@ -113,7 +113,7 @@ const Record = ({recordObject, modelRef, parentIndex, edit, remove, cutoffIndex}
     if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[4]]] = editingField5
     if (editingField1 !== undefined) entry[fieldKeysArray[crudArrayRef[5]]] = editingField6
     delete entry.undefined
-    // console.log(`entry`, entry)
+    console.log(`entry`, entry)
  
   const valuePropStack = [editingField6, editingField5, editingField4, editingField3, editingField2, editingField1] 
   const setterPropStack = [setEditingField6, setEditingField5, setEditingField4, setEditingField3, setEditingField2, setEditingField1] 
@@ -146,41 +146,41 @@ let rowPosition = +parentIndex + 1
 
 let gridStart
     switch (rowPosition) {
-        case 20 : gridStart = 'row-start-20'
+        case 20 : gridStart = 'row-start-74'
                 break
-        case 19 : gridStart = 'row-start-19'
+        case 19 : gridStart = 'row-start-70'
                 break
-        case 18 : gridStart = 'row-start-18'
+        case 18 : gridStart = 'row-start-66'
                 break
-        case 17 : gridStart = 'row-start-17'
+        case 17 : gridStart = 'row-start-62'
                 break
-        case 16 : gridStart = 'row-start-16'
+        case 16 : gridStart = 'row-start-58'
                 break
-        case 15 : gridStart = 'row-start-15'
+        case 15 : gridStart = 'row-start-54'
                 break
-        case 14 : gridStart = 'row-start-14'
+        case 14 : gridStart = 'row-start-50'
                 break
-        case 13 : gridStart = 'row-start-13'
+        case 13 : gridStart = 'row-start-46'
                 break
-        case 12 : gridStart = 'row-start-12'
+        case 12 : gridStart = 'row-start-42'
                 break
-        case 11 : gridStart = 'row-start-11'
+        case 11 : gridStart = 'row-start-38'
                 break
-        case 10 : gridStart = 'row-start-10'
+        case 10 : gridStart = 'row-start-34'
                 break
-        case 9 : gridStart = 'row-start-9'
+        case 9 : gridStart = 'row-start-30'
                 break
-        case 8 : gridStart = 'row-start-8'
+        case 8 : gridStart = 'row-start-26'
                 break
-        case 7 : gridStart = 'row-start-7'
+        case 7 : gridStart = 'row-start-22'
                 break
-        case 6 : gridStart = 'row-start-6'
+        case 6 : gridStart = 'row-start-18'
                 break
-        case 5 : gridStart = 'row-start-5'
+        case 5 : gridStart = 'row-start-14'
                 break
-        case 4 : gridStart = 'row-start-4'
+        case 4 : gridStart = 'row-start-10'
                 break
-        case 3 : gridStart = 'row-start-3'
+        case 3 : gridStart = 'row-start-6'
                 break
         default : gridStart = 'row-start-2'
                 break
@@ -198,7 +198,7 @@ let dynamicRecord = [ <EditButtons
                         deleting={deleting} 
                         toggleDelete={() => toggleDelete()} 
                     />,
-                    <div className={`border-b-gray-400 border-b-2 rounded-l-xl ${gridStart} pl-2 my-1 bg-secondary-light`}>
+                    <div className={`border-b-gray-400 border-b-2 rounded-l-xl ${gridStart} pl-2 my-1 bg-secondary-light dark:bg-slate-600 dark:border-b-slate-600`}>
                     </div>
                   ]
 i++
@@ -209,6 +209,28 @@ let BorderRef = {
 }
 
 //loop through values. for each CRUD value, we must send a state value and then a setter 
+
+let GridStartNum = +gridStart.replace(/[^0-9.]/g, '')
+let GridStartTest1 = `row-start-${GridStartNum+1}`
+let GridStartTest2 = `row-start-${GridStartNum+2}`
+let GridStartTest3 = `row-start-${GridStartNum+3}`
+
+let sillies1 = [
+  <span className={`${GridStartTest1} invisible`}>1</span>,
+  <span className={`${GridStartTest1} invisible`}>1</span>,
+  <span className={`${GridStartTest1} invisible`}>1</span>
+]
+let sillies2 = [
+  <span className={`${GridStartTest2} invisible`}>2</span>,
+  <span className={`${GridStartTest2} invisible`}>2</span>,
+  <span className={`${GridStartTest2} invisible`}>2</span>
+]
+let sillies3 = [
+  <span className={`${GridStartTest3} invisible`}>3</span>,
+  <span className={`${GridStartTest3} invisible`}>3</span>,
+  <span className={`${GridStartTest3} invisible`}>3</span>
+]
+
 for (let fieldValue of displayFieldValues) {
 
     let isLast = false
@@ -216,7 +238,7 @@ for (let fieldValue of displayFieldValues) {
     
     if ( crudArrayRef.includes(i-parentIndex*100-1) && eagerFieldArray.length > 0 ) {
       dynamicRecord.push (
-        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
+        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light dark:bg-slate-600 dark:border-b-slate-600 dark:text-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field  
             editing={editing}
             data={fieldValue} 
@@ -227,7 +249,7 @@ for (let fieldValue of displayFieldValues) {
       valuePropStack.pop()
     } else if (crudArrayRef.includes(i-parentIndex*100-1) && uniqueFieldArray.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (
-        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
+        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light dark:bg-slate-600 dark:border-b-slate-600 dark:text-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field  
             editing={editing}
             data={valuePropStack.pop()} 
@@ -237,7 +259,7 @@ for (let fieldValue of displayFieldValues) {
       )
     } else if (crudArrayRef.includes(i-parentIndex*100-1)) {
       dynamicRecord.push (
-        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
+        <div key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light dark:bg-slate-600 dark:border-b-slate-600 dark:text-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field  
             editing={editing}
             data={valuePropStack.pop()} 
@@ -247,7 +269,7 @@ for (let fieldValue of displayFieldValues) {
     }
     else {
       dynamicRecord.push (
-        <div  key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
+        <div  key={i} className={`flex flex-col border-b-gray-400 border-b-2 my-1 bg-secondary-light dark:bg-slate-600 dark:border-b-slate-600 dark:text-secondary-light content-center ${gridStart} ${BorderRef[isLast]} px-2 border-highlight text-center`}>
           <Field
             editing={editing} 
             data={fieldValue}/>
@@ -256,16 +278,36 @@ for (let fieldValue of displayFieldValues) {
       eagerFieldArray.pop()
     }
     i++
+    sillies1.push(
+      <>
+        <span className={`${GridStartTest1} invisible`}>1</span>
+      </>
+    )
+    sillies2.push(
+      <>
+        <span className={`${GridStartTest2} invisible`}>2</span>
+      </>
+    )
+    sillies3.push(
+      <>
+        <span className={`${GridStartTest3} invisible`}>3</span>
+      </>
+    )
   
 }
 
 dynamicRecord.push(
-  <div className={`border-b-gray-400 border-b-2  rounded-r-xl ${gridStart} my-1 bg-secondary-light`}>
+  <div className={`border-b-gray-400 border-b-2  rounded-r-xl ${gridStart} my-1 bg-secondary-light dark:bg-slate-600 dark:border-b-slate-600`}>
                   </div>
 )
+
+
 return (
     <>
     {dynamicRecord}
+    {sillies1}
+    {sillies2}
+    {sillies3}
     </>
     
   )

@@ -219,7 +219,7 @@ useEffect(() => {
 },[searchColumn, searchValue, searchOffset, tableData])
 
 let tableHead = [
-  <div key={0} className='border-t-2 row-start-1 bg-neutral'>
+  <div key={0} className=' row-start-1 bg-neutral dark:bg-slate-900'>
      </div>,
     <div className={`rounded-l-xl row-start-1 pl-2 py-3 mb-2  border-b-4  border-highlight bg-primary-dark`}>
                     </div>
@@ -268,26 +268,31 @@ const tableBody = filteredTableData.map((element, index) => {
   }
 })
 
-  let controllerWidth = 'w-[100vw]'
+  let controllerWidth = 'w-[22vw]'
   if (viewController === false) controllerWidth = ''
 
+  let tableWidth = 'w-[75vw]'
+  if (viewController === false) tableWidth = 'w-[98.6vw]'
+
   return (
-  <div className={`flex flex-col justify-center ${controllerWidth}`}>
-       < TableController 
-          modelRef={routeModelRef} 
-          searchColumn={searchColumn}
-          setSearchColumn={setSearchColumn} 
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          searchOffset={searchOffset}
-          setSearchOffset={setSearchOffset}
-          displayFieldKeys={displayFieldKeys}
-          viewController={viewController}
-          addRecord={addRecord}/>
-        <div className={`justify-center w-auto text-md grid grid-rows-20 auto-cols-min auto-rows-max pt-5 bg-neutral`}>
-            {tableHead}
-            {tableBody}
-        </div>
+  <div className='flex flex-row'>
+    <div className={`relative flex content-start bg-primary-dark min-h-[88.6vh] ${controllerWidth}`}>
+    < TableController 
+      modelRef={routeModelRef} 
+      searchColumn={searchColumn}
+      setSearchColumn={setSearchColumn} 
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      searchOffset={searchOffset}
+      setSearchOffset={setSearchOffset}
+      displayFieldKeys={displayFieldKeys}
+      viewController={viewController}
+      addRecord={addRecord}/>
+    </div>
+    <div className={`justify-center ${tableWidth} min-h-[70vh] text-md grid grid-rows-20 auto-cols-min auto-rows-max pt-5 bg-neutral dark:bg-slate-900`}>
+        {tableHead}
+        {tableBody}
+    </div>
   </div>
   )
 }

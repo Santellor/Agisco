@@ -1,6 +1,6 @@
+    
 
 MVP 4
-    Allow multiple rows to be updated at once
 
     Update Seed files
         Use admin profile to add more workouts and goals for my account, admin
@@ -43,6 +43,8 @@ each feature will be rated by importance ( time - concept - value )
                                     make the buttons free-floating
                             move the selector setters to the side
                                     add buffer rows
+
+                        2000 - Allow multiple rows to be updated at once ?
 
     2 - new top bar for workouts - DYNAMIC CSS? - 7
         display the name of the workout, larger, with the remaining steps in a row

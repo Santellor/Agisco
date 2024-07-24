@@ -18,6 +18,7 @@ function App() {
 
   const userId = useSelector((state) => state.userId);
   const workingOut = useSelector((state) => state.workingOut);
+  const dark = useSelector((state) => state.dark);
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -37,12 +38,17 @@ function App() {
   useEffect(() => {
     sessionCheck()
   }, [userId])
+
+  const handleDark = () => {
+    console.log(`dark`, dark)
+    return dark ? 'dark' :'' 
+  }
   
   return (
-  <div>
+  <div className={`${handleDark()}`}>
     <main>
       < Navbar />
-      <div className='flex text-center justify-center content-center bg-neutral'>
+      <div className={`flex text-center justify-start content-center h-max min-h-[88.6vh] max-w-[100vw] dark:bg-slate-900 bg-neutral`}>
             <Outlet/>
       </div>
     </main>

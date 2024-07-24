@@ -46,8 +46,6 @@ const Login = ({ loggedOut }) => {
     } else setMessage(data.message)
 
   }
-
-  
   
   
   return (
@@ -59,15 +57,15 @@ const Login = ({ loggedOut }) => {
         </h4>
     </div>
     <div className='flex flex-col items-center h-[100vh] w-[40vw] bg-primary-light text-primary-dark'>
-       <button className=' text-3xl text-primary dark mt-20 mb-2 py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={() => navigate("/register")}>Create Account</button>
+       <button className=' text-3xl text-primary dark mt-20 mb-2 py-2 px-5 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={() => navigate("/register")}>Create Account</button>
         <form className='flex flex-col items-center bg-primary-light text-primary-dark'>
-          <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
+          <input className='bg-neutral text-xl text-primary-dark px-2 pt-3 pb-3 py-10 my-2 rounded'
             type='text' 
             value={email} 
             placeholder=' email...' 
             onChange={(e) => setEmail(e.target.value)}
             />
-          <input className='bg-neutral text-xl text-primary-dark pt-3 pb-3 py-10 my-2 rounded'
+          <input className='bg-neutral text-xl text-primary-dark px-2 pt-3 pb-3 py-10 my-2 rounded'
             type='password'
             value={password}
             placeholder=' password...'

@@ -11,20 +11,20 @@ const EditButtons = ({ editRecord, editing, toggleEdit, removeRecord, deleting, 
 
   if (editing) {
     return (
-        <div className={`flex flex-row justify-center h-auto content-center bg-neutral ${gridStart}`}>
+        <div className={`flex flex-row justify-center h-auto content-center bg-neutral dark:bg-slate-900  ${gridStart}`}>
             <button className='border-highlight border-b-2 self-center text-lg my-1 mr-4 h-min py-2 px-3 rounded  bg-primary-dark text-primary-light hover:text-highlight' onClick={editRecord}><IoIosCheckmarkCircle /></button>
         </div>
     )
 } else if (deleting) {
     return (
-        <div className={`flex flex-row justify-center h-auto content-center bg-neutral ${gridStart}`}>
+        <div className={`flex flex-row justify-center h-auto content-center bg-neutral dark:bg-slate-900 ${gridStart}`}>
             <button className='border-highlight border-b-2 self-center text-lg my-1 mx-1 h-min py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-red-700' onClick={removeRecord}><FaRegTrashAlt /></button>
             <button className='border-highlight border-b-2 self-center text-lg my-1 mr-4 h-min py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={toggleDelete}><RiArrowGoBackFill /></button>
         </div>          
     )
 } else {
     return (
-        <div className={`flex flex-row justify-center content-center bg-neutral ${gridStart}`}>
+        <div className={`flex flex-row justify-center content-center bg-neutral dark:bg-slate-900 ${gridStart}`}>
             <button className='border-highlight border-b-2 self-center text-lg my-1 mx-1 h-min py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={toggleDelete}><FaRegTrashAlt /></button>
             <button className='border-highlight border-b-2 self-center text-lg my-1 mr-4 h-min py-2 px-3 rounded bg-primary-dark text-primary-light hover:text-highlight' onClick={toggleEdit}><IoPencil /></button>
         </div>           
